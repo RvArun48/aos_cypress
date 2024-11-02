@@ -1,0 +1,40 @@
+{
+  "name": "cypress",
+  "version": "2.0.0",
+  "description": "Cucumber Framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test1": "cypress run",
+    "allure:generate": "allure generate allure-results --clean",
+    "allure:open": "allure open allure-report",
+    "allure:serve": "allure serve"
+  
+
+  },
+  "keywords": [
+    "cypress"
+  ],
+  "author": "prathap",
+  "license": "ISC",
+  "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^21.0.2",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.3",
+    "@cucumber/cucumber": "^11.0.1",
+    "@shelex/cypress-allure-plugin": "^2.40.2",
+    "allure-commandline": "^2.31.0",
+    "allure-cypress": "^3.0.5",
+    "cypress": "^13.15.0",
+    "cypress-cucumber-preprocessor": "^4.3.1",
+    "cypress-file-upload": "^5.0.8",
+    "esbuild": "^0.24.0"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": true,
+    "step_definitions": "cypress/e2e/aos"
+  },
+  "dependencies": {
+    "cypress": "^2.0.0",
+    "xlsx": "^0.18.5"
+  }
+}
