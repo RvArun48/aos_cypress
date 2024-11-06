@@ -1,6 +1,6 @@
 import { Given } from 'cypress-cucumber-preprocessor/steps';
 
-let bookingData, adultData, childData, infantData, adultCount, childCount, infantCount, totalPassengersCount,i=0;
+let bookingData, adultData, childData, infantData, adultCount, childCount, infantCount, totalPassengersCount, tripType ,i=0;
 
 const excelDateToString = (excelDate) => {
   const epoch = new Date(Date.UTC(1900, 0, 1));
@@ -19,13 +19,16 @@ Given('I have the flight details from {string} with sheet {string} and index {in
     adultCount = bookingData[index]['Adults'];
     childCount = bookingData[index]['Children'];
     infantCount = bookingData[index]['Infants'];
+    tripType = bookingData[index]['Key'];
     totalPassengersCount = adultCount + childCount + infantCount;
     
     Cypress.env('adultCount', adultCount);
     Cypress.env('childCount', childCount);
     Cypress.env('infantCount', infantCount);
     Cypress.env('totalPassengersCount', totalPassengersCount);
+    Cypress.env('tripType', tripType);
 
+    cy.log('tripType:', tripType);
     if (!bookingData[index]) {
       throw new Error(`Row with index ${index} does not exist in one or both sheets.`);
     }
@@ -91,7 +94,7 @@ let sheetName = 'Infant';
 
 // Define the base URL and default query parameters
 let baseUrl = "https://ngtest.amadeusonlinesuite.com/flight/search?";
-let params = {
+let params_ow = {
   dep1: '',
   ret1: '',
   dtt1: '',
@@ -112,64 +115,201 @@ let params = {
   currtime: Date.now() // dynamically sets the current timestamp
 };
 
-// Step definitions that utilize the data from the specified sheet and index
+let params_rt = {
+  dep1: '',       // Departure location for leg 1
+  ret1: '',       // Return location for leg 1
+  dtt1: '',       // Departure date for leg 1
+  cl1: '',        // Cabin class for leg 1
+  dep2: '',       // Departure location for leg 2 (return)
+  ret2: '',       // Return location for leg 2 (if needed)
+  dtt2: '',       // Departure date for leg 2
+  cl2: '',        // Cabin class for leg 2
+  mgcc: 'IN',     // Market country code
+  triptype: '',   // Trip type (1 = one-way, 2 = round-trip)
+  adult: '',      // Number of adult passengers
+  child: '',      // Number of child passengers
+  infant: '',     // Number of infant passengers
+  direct: '',     // Direct flight option
+  baggage: '',    // Baggage option
+  pft: '',        // Placeholder for optional features
+  key: 'IRT',     // Search type key (IRT for international round-trip)
+  airlines: '',   // Airlines filter
+  ref: 'false',   // Refundable option
+  lc: 'EN',       // Language code
+  ipc: 'false',   // IPC status (false for no IPC)
+  currtime: Date.now() // Dynamic timestamp
+};
+
 Given('I have the departure location', () => {
- 
-  params.dep1 = bookingData[Cypress.env('dataIndex')]['Departure Location'];
+  if (tripType === 'OW') {
+    params_ow.dep1 = bookingData[Cypress.env('dataIndex')]['Departure Location'];
+  }
+  
+  if (tripType === 'IRT') {
+    cy.log('Hellooooooooooooooooooo');
+    params_rt.dep1 = bookingData[Cypress.env('dataIndex')]['Departure Location'];
+  }
+});
+Given('I have the departure return location', () => {
+  
+  
+  if (tripType === 'IRT') {
+    
+    params_rt.dep2 = bookingData[Cypress.env('dataIndex')]['Return Location'];
+  }
 });
 
 Given('I have the return location', () => {
-  params.ret1 = bookingData[Cypress.env('dataIndex')]['Return Location'];
+  if (tripType === 'OW') {
+    params_ow.ret1 = bookingData[Cypress.env('dataIndex')]['Return Location'];
+  }
+  if (tripType === 'IRT') {
+    params_rt.ret1 = bookingData[Cypress.env('dataIndex')]['Return Location'];
+  }
 });
+
+Given('I have the return location two', () => {
+  
+  if (tripType === 'IRT') {
+    params_rt.ret2 = bookingData[Cypress.env('dataIndex')]['Departure Location'];
+  }
+});
+
+
+
+
+
 
 Given('I have the departure date', () => {
   const excelDate = bookingData[Cypress.env('dataIndex')]['Departure Date'];
-  params.dtt1 = excelDateToString(excelDate);
-  cy.log(`Fetched Departure Date: ${params.dtt1}`);
+  if (tripType === 'OW') {
+    params_ow.dtt1 = excelDateToString(excelDate);
+  }
+  if (tripType === 'IRT') {
+    params_rt.dtt1 = excelDateToString(excelDate);
+  }
+  cy.log(`Fetched Departure Date: ${params_ow.dtt1 || params_rt.dtt1}`);
 });
 
+
+
+Given('I have the return date', () => {
+  const excelDate = bookingData[Cypress.env('dataIndex')]['Return Date'];
+  if (tripType === 'OW') {
+    params_ow.dtt1 = excelDateToString(excelDate);
+  }
+  if (tripType === 'IRT') {
+    params_rt.dtt2 = excelDateToString(excelDate);
+  }
+  cy.log(`Fetched Return Date: ${params_ow.dtt1 || params_rt.dtt1}`);
+});
+
+
+
+
+
 Given('I have the cabin class', () => {
-  params.cl1 = bookingData[Cypress.env('dataIndex')]['Cabin Class'];
+  if (tripType === 'OW') {
+    params_ow.cl1 = bookingData[Cypress.env('dataIndex')]['Cabin Class'];
+  }
+  if (tripType === 'IRT') {
+    params_rt.cl1 = bookingData[Cypress.env('dataIndex')]['Cabin Class'];
+  }
+});
+Given('I have the cabin return class', () => {
+  if (tripType === 'OW') {
+    params_ow.cl1 = bookingData[Cypress.env('dataIndex')]['Cabin Class'];
+  }
+  if (tripType === 'IRT') {
+    params_rt.cl2 = bookingData[Cypress.env('dataIndex')]['Cabin Class'];
+  }
 });
 
 Given('I have the market country code', () => {
-  params.mgcc = bookingData[Cypress.env('dataIndex')]['Market Country Code'];
+  if (tripType === 'OW') {
+    params_ow.mgcc = bookingData[Cypress.env('dataIndex')]['Market Country Code'];
+  }
+  if (tripType === 'IRT') {
+    params_rt.mgcc = bookingData[Cypress.env('dataIndex')]['Market Country Code'];
+  }
 });
 
 Given('I have the trip type', () => {
-  params.triptype = bookingData[Cypress.env('dataIndex')]['Trip Type'];
+  if (tripType === 'OW') {
+    params_ow.triptype = bookingData[Cypress.env('dataIndex')]['Trip Type'];
+  }
+  if (tripType === 'IRT') {
+    params_rt.triptype = bookingData[Cypress.env('dataIndex')]['Trip Type'];
+  }
 });
 
 Given('I have the number of adults', () => {
-  params.adult = bookingData[Cypress.env('dataIndex')]['Adults'];
+  if (tripType === 'OW') {
+    params_ow.adult = bookingData[Cypress.env('dataIndex')]['Adults'];
+  }
+  if (tripType === 'IRT') {
+    params_rt.adult = bookingData[Cypress.env('dataIndex')]['Adults'];
+  }
 });
 
 Given('I have the number of children', () => {
-  params.child = bookingData[Cypress.env('dataIndex')]['Children'];
+  if (tripType === 'OW') {
+    params_ow.child = bookingData[Cypress.env('dataIndex')]['Children'];
+  }
+  if (tripType === 'IRT') {
+    params_rt.child = bookingData[Cypress.env('dataIndex')]['Children'];
+  }
 });
 
 Given('I have the number of infants', () => {
-  params.infant = bookingData[Cypress.env('dataIndex')]['Infants'];
+  if (tripType === 'OW') {
+    params_ow.infant = bookingData[Cypress.env('dataIndex')]['Infants'];
+  }
+  if (tripType === 'IRT') {
+    params_rt.infant = bookingData[Cypress.env('dataIndex')]['Infants'];
+  }
 });
 
 Given('I have the direct flight option set to', () => {
-  params.direct = bookingData[Cypress.env('dataIndex')]['Direct Flight'];
+  if (tripType === 'OW') {
+    params_ow.direct = bookingData[Cypress.env('dataIndex')]['Direct Flight'];
+  }
+  if (tripType === 'IRT') {
+    params_rt.direct = bookingData[Cypress.env('dataIndex')]['Direct Flight'];
+  }
 });
 
 Given('I have the baggage option set to', () => {
-  params.baggage = bookingData[Cypress.env('dataIndex')]['Baggage'];
+  if (tripType === 'OW') {
+    params_ow.baggage = bookingData[Cypress.env('dataIndex')]['Baggage'];
+  }
+  if (tripType === 'IRT') {
+    params_rt.baggage = bookingData[Cypress.env('dataIndex')]['Baggage'];
+  }
 });
-
-// Given('I have enter the airline', () => {
-//   params.airlines = testdata[Cypress.env('dataIndex')]['Perairline'];
-// });
 
 Given('I have the refundable option set to', () => {
-  params.ref = bookingData[Cypress.env('dataIndex')]['Refundable'];
+  if (tripType === 'OW') {
+    params_ow.ref = bookingData[Cypress.env('dataIndex')]['Refundable'];
+  }
+  if (tripType === 'IRT') {
+    params_rt.ref = bookingData[Cypress.env('dataIndex')]['Refundable'];
+  }
 });
 
+Given('I have the key parameter', () => {
+  params.key = bookingData[Cypress.env('tripType')];
+});
+
+
 When('I generate the search URL', () => {
-  const query = Object.entries(params).map(([key, value]) => `${key}=${value}`).join('&');
+  let query;
+  if(tripType === 'OW') {
+     query = Object.entries(params_ow).map(([key, value]) => `${key}=${value}`).join('&');
+  }
+  if(tripType === 'IRT') {
+    query = Object.entries(params_rt).map(([key, value]) => `${key}=${value}`).join('&');
+  }
   cy.wrap(`${baseUrl}${query}`).as('generatedUrl');
 });
 
@@ -268,37 +408,37 @@ Then("I need to add the traveller details for {string}", (passengerType) => {
 
   cy.get("[formcontrolname='DocumentIssueDay']").eq(i).click()
   .should('be.visible')
-  .type('10').contains('10')
+  .type(rowData['PID Date']).contains(rowData['PID Date'])
   .should('be.visible')
   .click();
 
   cy.get("[formcontrolname='DocumentIssueMonth']").eq(i).click()
   .should('be.visible')
-  .type('January').contains('January')
+  .type(rowData['PID Month']).contains(rowData['PID Month'])
   .should('be.visible')
   .click();
 
   cy.get("[formcontrolname='DocumentIssueYear']").eq(i).click()
   .should('be.visible')
-  .type('2020').contains('2020')
+  .type(rowData['PID Year']).contains(rowData['PID Year'])
   .should('be.visible')
   .click();
 
   cy.get("[formcontrolname='DocumentExpiryDay']").eq(i).click()
   .should('be.visible')
-  .type('10').contains('10')
+  .type(rowData['PED Date']).contains(rowData['PED Date'])
   .should('be.visible')
   .click();
 
   cy.get("[formcontrolname='DocumentExpiryMonth']").eq(i).click()
   .should('be.visible')
-  .type('January').contains('January')
+  .type(rowData['PED Month']).contains(rowData['PED Month'])
   .should('be.visible')
   .click();
 
   cy.get("[formcontrolname='DocumentExpiryYear']").eq(i).click()
   .should('be.visible')
-  .type('2030').contains('2030')
+  .type(rowData['PED Year']).contains(rowData['PED Year'])
   .should('be.visible')
   .click();
 
@@ -355,8 +495,3 @@ Then("I need to click continue to payment", () => {
 
 
 
-
-
-
-
- 
