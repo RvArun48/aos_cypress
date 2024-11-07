@@ -27,6 +27,7 @@ Given('I have the flight details from {string} with sheet {string} and index {in
     Cypress.env('infantCount', infantCount);
     Cypress.env('totalPassengersCount', totalPassengersCount);
     Cypress.env('tripType', tripType);
+    Cypress.env('bookingData',bookingData)
 
     cy.log('tripType:', tripType);
     if (!bookingData[index]) {
@@ -159,6 +160,29 @@ let params_ms3 = {
   currtime: Date.now()
 };
 
+let params_ms6 = {
+  dep1: '', ret1: '', dtt1: '', cl1: '',
+  dep2: '', ret2: '', dtt2: '', cl2: '',
+  dep3: '', ret3: '', dtt3: '', cl3: '',
+  dep4: '', ret4: '', dtt4: '', cl4: '',
+  dep5: '', ret5: '', dtt5: '', cl5: '',
+  dep6: '', ret6: '', dtt6: '', cl6: '',
+  mgcc: 'IN',
+  triptype: '',
+  adult: '',
+  child: '',
+  infant: '',
+  direct: '',
+  baggage: '',
+  pft: '',
+  key: 'NMC',
+  airlines: '',
+  ref: 'false',
+  lc: 'EN',
+  currtime: Date.now()
+};
+
+
 Given('I have the departure location', () => {
   if (tripType === 'OW') {
     params_ow.dep1 = bookingData[Cypress.env('dataIndex')]['Departure Location'];
@@ -172,7 +196,12 @@ Given('I have the departure location', () => {
   if (tripType === 'MC') {
 
     params_ms3.dep1 = bookingData[Cypress.env('dataIndex')]['Departure Location'];
-    cy.log('Check point 1')
+   
+  }
+  if (tripType === 'NMC') {
+
+    params_ms6.dep1 = bookingData[Cypress.env('dataIndex')]['Departure Location'];
+   
   }
 });
 Given('I have the departure return location', () => {
@@ -195,7 +224,12 @@ Given('I have the return location', () => {
   if (tripType === 'MC') {
 
     params_ms3.ret1 = bookingData[Cypress.env('dataIndex')]['Return Location'];
-    cy.log('Check point 2')
+   
+  }
+  if (tripType === 'NMC') {
+
+    params_ms6.ret1 = bookingData[Cypress.env('dataIndex')]['Return Location'];
+   
   }
 
 });
@@ -222,7 +256,11 @@ Given('I have the departure date', () => {
   }
   if (tripType === 'MC') {
     params_ms3.dtt1 = excelDateToString(excelDate);
-    cy.log('Check point 3')
+    
+  }
+  if (tripType === 'NMC') {
+    params_ms6.dtt1 = excelDateToString(excelDate);
+    
   }
   cy.log(`Fetched Departure Date: ${params_ow.dtt1 || params_rt.dtt1}`);
 });
@@ -254,7 +292,12 @@ Given('I have the cabin class', () => {
   if (tripType === 'MC') {
 
     params_ms3.cl1 = bookingData[Cypress.env('dataIndex')]['Cabin Class'];
-    cy.log('Check point 3')
+    
+  }
+  if (tripType === 'NMC') {
+
+    params_ms6.cl1 = bookingData[Cypress.env('dataIndex')]['Cabin Class'];
+    
   }
 });
 Given('I have the cabin return class', () => {
@@ -275,6 +318,10 @@ Given('I have the departure location two', () => {
 
     params_ms3.dep2 = bookingData[Cypress.env('dataIndex')]['Departure Location 2'];
   }
+  if (tripType === 'NMC') {
+
+    params_ms6.dep2 = bookingData[Cypress.env('dataIndex')]['Departure Location 2'];
+  }
 });
 
 Given('I have the departure location three', () => {
@@ -282,7 +329,12 @@ Given('I have the departure location three', () => {
   if (tripType === 'MC') {
 
     params_ms3.dep3 = bookingData[Cypress.env('dataIndex')]['Departure Location 3'];
-    cy.log('Check point 4')
+    
+  }
+  if (tripType === 'NMC') {
+
+    params_ms6.dep3 = bookingData[Cypress.env('dataIndex')]['Departure Location 3'];
+    
   }
 });
 
@@ -292,7 +344,12 @@ Given('I have the return location twoo', () => {
   if (tripType === 'MC') {
 
     params_ms3.ret2 = bookingData[Cypress.env('dataIndex')]['Return Location 2'];
-    cy.log('Check point 5')
+ 
+  }
+  if (tripType === 'NMC') {
+
+    params_ms6.ret2 = bookingData[Cypress.env('dataIndex')]['Return Location 2'];
+ 
   }
 
 });
@@ -302,7 +359,12 @@ Given('I have the return location three', () => {
   if (tripType === 'MC') {
 
     params_ms3.ret3 = bookingData[Cypress.env('dataIndex')]['Return Location 3'];
-    cy.log('Check point 6')
+    
+  }
+  if (tripType === 'NMC') {
+
+    params_ms6.ret3 = bookingData[Cypress.env('dataIndex')]['Return Location 3'];
+    
   }
 
 });
@@ -313,17 +375,20 @@ Given('I have the departure date two', () => {
   if (tripType === 'MC') {
     params_ms3.dtt2 = excelDateToString(excelDate);
   }
- // cy.log(`Fetched Departure Date: ${params_ow.dtt1 || params_rt.dtt1}`);
+  if (tripType === 'NMC') {
+    params_ms6.dtt2 = excelDateToString(excelDate);
+  }
+ 
 });
 
-Given('I have the departure date two', () => {
-  const excelDate = bookingData[Cypress.env('dataIndex')]['Departure Date 2'];
+// Given('I have the departure date two', () => {
+//   const excelDate = bookingData[Cypress.env('dataIndex')]['Departure Date 2'];
   
-  if (tripType === 'MC') {
-    params_ms3.dtt2 = excelDateToString(excelDate);
-  }
-  //cy.log(`Fetched Departure Date: ${params_ow.dtt1 || params_rt.dtt1}`);
-});
+//   if (tripType === 'MC') {
+//     params_ms3.dtt2 = excelDateToString(excelDate);
+//   }
+//   //cy.log(`Fetched Departure Date: ${params_ow.dtt1 || params_rt.dtt1}`);
+// });
 
 Given('I have the departure date three', () => {
   const excelDate = bookingData[Cypress.env('dataIndex')]['Departure Date 3'];
@@ -331,7 +396,11 @@ Given('I have the departure date three', () => {
   if (tripType === 'MC') {
     params_ms3.dtt3 = excelDateToString(excelDate);
   }
-  //cy.log(`Fetched Departure Date: ${params_ow.dtt1 || params_rt.dtt1}`);
+
+  if (tripType === 'NMC') {
+    params_ms6.dtt3 = excelDateToString(excelDate);
+  }
+  
 });
 
 
@@ -342,7 +411,12 @@ Given('I have the cabin class two', () => {
   if (tripType === 'MC') {
 
     params_ms3.cl2 = bookingData[Cypress.env('dataIndex')]['Cabin Class 2'];
-    cy.log('Check point 7')
+   
+  }
+  if (tripType === 'NMC') {
+
+    params_ms6.cl2 = bookingData[Cypress.env('dataIndex')]['Cabin Class 2'];
+   
   }
 });
 
@@ -351,7 +425,13 @@ Given('I have the cabin class three', () => {
   if (tripType === 'MC') {
 
     params_ms3.cl3 = bookingData[Cypress.env('dataIndex')]['Cabin Class 3'];
-    cy.log('Check point 8')
+    
+  }
+
+  if (tripType === 'NMC') {
+
+    params_ms6.cl3 = bookingData[Cypress.env('dataIndex')]['Cabin Class 3'];
+    
   }
 });
 
@@ -361,27 +441,132 @@ Given('I have the cabin class three', () => {
 
 
 
+Given('I have the departure location four', () => {
+ 
+  if (tripType === 'NMC') {
+
+    params_ms6.dep4 = bookingData[Cypress.env('dataIndex')]['Departure Location 4'];
+  }
+ 
+});
+
+
+Given('I have the return location four', () => {
+  
+  if (tripType === 'NMC') {
+
+    params_ms6.ret4 = bookingData[Cypress.env('dataIndex')]['Return Location 4'];
+    
+  }
+ 
+});
+
+Given('I have the departure date four', () => {
+  const excelDate = bookingData[Cypress.env('dataIndex')]['Departure Date 4'];
+  
+  if (tripType === 'NMC') {
+    params_ms6.dtt4 = excelDateToString(excelDate);
+  }
+
+ 
+  
+});
+
+
+Given('I have the cabin class four', () => {
+  
+  if (tripType === 'NMC') {
+
+    params_ms6.cl4 = bookingData[Cypress.env('dataIndex')]['Cabin Class 4'];
+    
+  }
+});
 
 
 
 
+Given('I have the departure location five', () => {
+ 
+  if (tripType === 'NMC') {
+
+    params_ms6.dep5 = bookingData[Cypress.env('dataIndex')]['Departure Location 5'];
+  }
+ 
+});
 
 
+Given('I have the return location five', () => {
+  
+  if (tripType === 'NMC') {
+
+    params_ms6.ret5 = bookingData[Cypress.env('dataIndex')]['Return Location 5'];
+    
+  }
+ 
+});
+
+Given('I have the departure date five', () => {
+  const excelDate = bookingData[Cypress.env('dataIndex')]['Departure Date 5'];
+  
+  if (tripType === 'NMC') {
+    params_ms6.dtt5 = excelDateToString(excelDate);
+  }
+
+ 
+  
+});
 
 
+Given('I have the cabin class five', () => {
+  
+  if (tripType === 'NMC') {
+
+    params_ms6.cl5 = bookingData[Cypress.env('dataIndex')]['Cabin Class 5'];
+    
+  }
+});
 
 
+Given('I have the departure location six', () => {
+ 
+  if (tripType === 'NMC') {
+
+    params_ms6.dep6 = bookingData[Cypress.env('dataIndex')]['Departure Location 6'];
+  }
+ 
+});
 
 
+Given('I have the return location six', () => {
+  
+  if (tripType === 'NMC') {
+
+    params_ms6.ret6 = bookingData[Cypress.env('dataIndex')]['Return Location 6'];
+    
+  }
+ 
+});
+
+Given('I have the departure date six', () => {
+  const excelDate = bookingData[Cypress.env('dataIndex')]['Departure Date 6'];
+  
+  if (tripType === 'NMC') {
+    params_ms6.dtt6 = excelDateToString(excelDate);
+  }
+
+ 
+  
+});
 
 
+Given('I have the cabin class six', () => {
+  
+  if (tripType === 'NMC') {
 
-
-
-
-
-
-
+    params_ms6.cl6 = bookingData[Cypress.env('dataIndex')]['Cabin Class 6'];
+    
+  }
+});
 
 
 
@@ -397,7 +582,11 @@ Given('I have the market country code', () => {
   }
   if (tripType === 'MC') {
     params_ms3.mgcc = bookingData[Cypress.env('dataIndex')]['Market Country Code'];
-    cy.log('Check point 9')
+   
+  }
+  if (tripType === 'NMC') {
+    params_ms6.mgcc = bookingData[Cypress.env('dataIndex')]['Market Country Code'];
+   
   }
 });
 
@@ -410,7 +599,11 @@ Given('I have the trip type', () => {
   }
   if (tripType === 'MC') {
     params_ms3.triptype = bookingData[Cypress.env('dataIndex')]['Trip Type'];
-    cy.log('Check point 10')
+    
+  }
+  if (tripType === 'NMC') {
+    params_ms6.triptype = bookingData[Cypress.env('dataIndex')]['Trip Type'];
+    
   }
 });
 
@@ -423,7 +616,11 @@ Given('I have the number of adults', () => {
   }
   if (tripType === 'MC') {
     params_ms3.adult = bookingData[Cypress.env('dataIndex')]['Adults'];
-    cy.log('Check point 11')
+    
+  }
+  if (tripType === 'NMC') {
+    params_ms6.adult = bookingData[Cypress.env('dataIndex')]['Adults'];
+    
   }
 });
 
@@ -436,7 +633,11 @@ Given('I have the number of children', () => {
   }
   if (tripType === 'MC') {
     params_ms3.child = bookingData[Cypress.env('dataIndex')]['Children'];
-    cy.log('Check point 12')
+    
+  }
+  if (tripType === 'NMC') {
+    params_ms6.child = bookingData[Cypress.env('dataIndex')]['Children'];
+    
   }
 });
 
@@ -449,7 +650,11 @@ Given('I have the number of infants', () => {
   }
   if (tripType === 'MC') {
     params_ms3.infant = bookingData[Cypress.env('dataIndex')]['Infants'];
-    cy.log('Check point 13')
+    
+  }
+  if (tripType === 'NMC') {
+    params_ms6.infant = bookingData[Cypress.env('dataIndex')]['Infants'];
+    
   }
 });
 
@@ -462,7 +667,11 @@ Given('I have the direct flight option set to', () => {
   }
   if (tripType === 'MC') {
     params_ms3.direct = bookingData[Cypress.env('dataIndex')]['Direct Flight'];
-    cy.log('Check point 14')
+    
+  }
+  if (tripType === 'NMC') {
+    params_ms6.direct = bookingData[Cypress.env('dataIndex')]['Direct Flight'];
+    
   }
 });
 
@@ -475,7 +684,11 @@ Given('I have the baggage option set to', () => {
   }
   if (tripType === 'MC') {
     params_ms3.baggage = bookingData[Cypress.env('dataIndex')]['Baggage'];
-    cy.log('Check point 15')
+    
+  }
+  if (tripType === 'NMC') {
+    params_ms6.baggage = bookingData[Cypress.env('dataIndex')]['Baggage'];
+    
   }
 });
 
@@ -488,7 +701,11 @@ Given('I have the refundable option set to', () => {
   }
   if (tripType === 'MC') {
     params_ms3.ref = bookingData[Cypress.env('dataIndex')]['Refundable'];
-    cy.log('Check point 16')
+   
+  }
+  if (tripType === 'NMC') {
+    params_ms6.ref = bookingData[Cypress.env('dataIndex')]['Refundable'];
+   
   }
 });
 
@@ -507,16 +724,21 @@ When('I generate the search URL', () => {
   }
   if(tripType === 'MC') {
     query = Object.entries(params_ms3).map(([key, value]) => `${key}=${value}`).join('&');
-    cy.log('Check point 17')
+   
+  }
+
+  if(tripType === 'NMC') {
+    query = Object.entries(params_ms6).map(([key, value]) => `${key}=${value}`).join('&');
+   
   }
   cy.wrap(`${baseUrl}${query}`).as('generatedUrl');
-  cy.log('Check point 18')
+
 });
 
 Then('I should visit the generated URL', function() {
   cy.get('@generatedUrl').then((url) => {
     cy.visit(url);
-    cy.log('Check point 19')
+   
   });
 });
 
@@ -694,5 +916,23 @@ Then("I need to click continue to payment", () => {
 
 });
 
+Then('I checking the origin and Destination as per search', () => {
+  
+  cy.get('.empireFlight_listing-card .empireFlight_airline-nameWrapper').each(($el, index, $list) => {
+    // Extract the text of each matched element
+    let expectedText = bookingData[Cypress.env('dataIndex')]['Departure Relevant Keyword'] +' to'+ bookingData[Cypress.env('dataIndex')]['Return Relevant Keyword'];
 
+    cy.log('bookingData->'+bookingData)
+   // cy.log('dataIndex->'+dataIndex)
+    
+    
+    cy.log('expectedText->'+expectedText)
+    // Assert the text of each element
+    cy.wrap($el).invoke('text').then((text) => {
+      cy.log('Actual Text: ' + text.trim()); // Log the actual text for debugging
+      expect(text.trim()).to.equal(expectedText); // Compare actual and expected text
+    });
+  });
+  
+});
 
