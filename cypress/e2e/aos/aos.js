@@ -21,6 +21,7 @@ const excelDateToString = (excelDate) => {
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const year = date.getFullYear();
   return `${month}-${day}-${year}`;
+  return `${month}-${day}-${year}`;
 };
 
 Given(
@@ -484,6 +485,23 @@ Given("I have the cabin class five", () => {
   }
 });
 
+
+
+Given('I have the return date', () => {
+  const excelDate = bookingData[Cypress.env('dataIndex')]['Return Date'];
+  if (tripType === 'OW') {
+    params_ow.dtt1 = excelDateToString(excelDate);
+  }
+  if (tripType === 'IRT') {
+    params_rt.dtt2 = excelDateToString(excelDate);
+  }
+  cy.log(`Fetched Return Date: ${params_ow.dtt1 || params_rt.dtt1}`);
+});
+
+
+
+
+
 Given("I have the departure location six", () => {
   if (tripType === "NMC") {
     params_ms6.dep6 =
@@ -705,6 +723,7 @@ When("I generate the search URL", () => {
 Then("I should visit the generated URL", function () {
   cy.get("@generatedUrl").then((url) => {
     cy.visit(url);
+   
   });
 });
 
