@@ -6,11 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "test1": "cypress run",
-    "allure:generate": "allure generate allure-results --clean",
-    "allure:open": "allure open allure-report",
-    "allure:serve": "allure serve"
-  
-
+    "cypress:run": "cypress run",
+    "test:html-report": "npm run cypress:run && npm run generate:report",
+    "run-tests": "npx cypress run --browser chrome --spec cypress/e2e/aos/**/*",
+    "generate-multi-cucumber-html-report": "node cucumber-html-report.js",
+    "generate-report": "cucumber-html-reporter --input cypress/cucumber-json --output cypress/reports/cucumber-report.html --theme bootstrap",
+    "posttest": "npm run generate-html-report"
   },
   "keywords": [
     "cypress"
@@ -22,19 +23,38 @@
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.3",
     "@cucumber/cucumber": "^11.0.1",
     "@shelex/cypress-allure-plugin": "^2.40.2",
-    "allure-commandline": "^2.31.0",
+    "allure-commandline": "^2.32.0",
     "allure-cypress": "^3.0.5",
-    "cypress": "^13.15.0",
+    "cucumber-html-reporter": "^6.0.0",
+    "cypress": "^13.15.2",
     "cypress-cucumber-preprocessor": "^4.3.1",
     "cypress-file-upload": "^5.0.8",
-    "esbuild": "^0.24.0"
+    "cypress-log-to-output": "^1.1.2",
+    "cypress-multi-reporters": "^2.0.4",
+    "cypress-soft-assertions": "^1.1.0",
+    "esbuild": "^0.24.0",
+    "fs-extra": "^11.2.0",
+    "log4js": "^6.9.1",
+    "multiple-cucumber-html-reporter": "^3.8.0"
   },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": true,
-    "step_definitions": "cypress/e2e/aos"
+    "step_definitions": "cypress/e2e/aos",
+    "cucumberJson": {
+      "generate": true,
+      "outputFolder": "cypress/cucumber-json",
+      "filePrefix": "",
+      "fileSuffix": ".cucumber"
+    }
   },
   "dependencies": {
-    "cypress": "^2.0.0",
+    "cypress-real-events": "^1.13.0",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0",
     "xlsx": "^0.18.5"
+  },
+  "testFiles": "**/*.feature",
+  "env": {
+    "TAGS": "@oneWay or @roundTrip or @multiCity3Seg or @multiCity6Seg"
   }
 }

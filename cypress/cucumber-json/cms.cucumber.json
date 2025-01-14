@@ -1,0 +1,67 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "AOS Validation",
+    "line": 1,
+    "id": "aos-validation",
+    "tags": [],
+    "uri": "cms.feature",
+    "elements": [
+      {
+        "id": "aos-validation;i-validate-the-package-functionality-for-cms",
+        "keyword": "Scenario",
+        "line": 4,
+        "name": "I validate the package functionality for CMS",
+        "tags": [
+          {
+            "name": "@Package",
+            "line": 3
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 5,
+            "name": "I want to open the application",
+            "result": {
+              "status": "passed",
+              "duration": 4035000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 7,
+            "name": "I validate Popular Hotels",
+            "result": {
+              "status": "passed",
+              "duration": 92081000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "I validate Top Destination",
+            "result": {
+              "status": "passed",
+              "duration": 9889000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "I validate Hot Deals",
+            "result": {
+              "status": "passed",
+              "duration": 4037000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

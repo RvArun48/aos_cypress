@@ -17,6 +17,33 @@
 
 import './commands';
 
+import 'cypress-real-events/support';
+
+import softAssertions from 'cypress-soft-assertions';
+softAssertions();
+
+
+// cypress/support/e2e.js (or cypress/support/index.js)
+
+
+
+// const installLogsCollector = require('cypress-log-to-output');
+// installLogsCollector();
+
+// installLogsCollector({
+//     collectTypes: ['cy:command', 'cy:log', 'cy:warn', 'cy:error'],
+//     filterLog: (log) => log.includes('custom'),
+//   });
+  
+
+  Cypress.on('uncaught:exception', (err) => {
+    // Ignore the "License not found" error
+    if (err.message.includes('License not found')) {
+      return false; // Prevent the error from failing the test
+    }
+    // Allow other exceptions to fail the test
+  });
+  
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
