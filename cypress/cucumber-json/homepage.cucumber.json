@@ -28,60 +28,74 @@
             "name": "I want to open the application",
             "result": {
               "status": "passed",
-              "duration": 2741000000
+              "duration": 2651000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 8,
+            "name": "the flight search section should be visible",
+            "result": {
+              "status": "passed",
+              "duration": 80000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "the advanced search button should be visible",
+            "result": {
+              "status": "passed",
+              "duration": 63000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 12,
+            "name": "I click the flight button",
+            "result": {
+              "status": "passed",
+              "duration": 129000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 8,
-            "name": "the header should be visible",
+            "line": 13,
+            "name": "the flight button action is verified",
             "result": {
-              "status": "failed",
-              "duration": 30209000000,
-              "error_message": "AssertionError: Timed out retrying after 30000ms: Expected to find element: `div.empireFlight_searchform-trips-tabs`, but never found it.\n    at Context.eval (cypress/e2e/homepage/homepage.js:21:40)\n    at Context.resolveAndRunStepDefinition (node_modules/cypress-cucumber-preprocessor/lib/resolveStepDefinition.js:193:0)\n    at Context.eval (node_modules/cypress-cucumber-preprocessor/lib/createTestFromScenario.js:27:0)"
+              "status": "passed",
+              "duration": 1011000000
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
             "line": 14,
-            "name": "I click the flight button",
+            "name": "I click the hotel button",
             "result": {
-              "status": "skipped"
+              "status": "passed",
+              "duration": 174000000
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
             "line": 15,
-            "name": "the flight button action is verified",
+            "name": "the hotel button action is verified",
             "result": {
-              "status": "skipped"
+              "status": "failed",
+              "duration": 30260000000,
+              "error_message": "CypressError: Timed out retrying after 30050ms: `cy.click()` failed because the page updated while this command was executing. Cypress tried to locate elements based on this query:\n\n> <button.ng-star-inserted>\n\nWe initially found matching element(s), but while waiting for them to become actionable, they disappeared from the page. Common situations why this happens:\n  - Your JS framework re-rendered asynchronously\n  - Your app code reacted to an event firing and removed the element\n\nYou can typically solve this by breaking up a chain. For example, rewrite:\n\n> `cy.get('button').click().click()`\n\nto\n\n> `cy.get('button').as('btn').click()`\n> `cy.get('@btn').click()`\n    at retryActionability (https://demoisland.preprod.amadeusonlinesuite.com/__cypress/runner/cypress_runner.js:130615:82)\nFrom previous event:\n    at whenStable (https://demoisland.preprod.amadeusonlinesuite.com/__cypress/runner/cypress_runner.js:146724:65)\n    at <unknown> (https://demoisland.preprod.amadeusonlinesuite.com/__cypress/runner/cypress_runner.js:146165:14)\nFrom previous event:\n    at $Cy.retry (https://demoisland.preprod.amadeusonlinesuite.com/__cypress/runner/cypress_runner.js:146147:76)\n    at retryActionability (https://demoisland.preprod.amadeusonlinesuite.com/__cypress/runner/cypress_runner.js:130626:19)\n    at <unknown> (https://demoisland.preprod.amadeusonlinesuite.com/__cypress/runner/cypress_runner.js:130629:12)\nFrom previous event:\n    at Object.verify (https://demoisland.preprod.amadeusonlinesuite.com/__cypress/runner/cypress_runner.js:130523:61)\n    at perform (https://demoisland.preprod.amadeusonlinesuite.com/__cypress/runner/cypress_runner.js:132422:77)\nFrom previous event:\n    at mouseAction (https://demoisland.preprod.amadeusonlinesuite.com/__cypress/runner/cypress_runner.js:132457:60)\n    at Context.click (https://demoisland.preprod.amadeusonlinesuite.com/__cypress/runner/cypress_runner.js:132474:14)\n    at wrapped (https://demoisland.preprod.amadeusonlinesuite.com/__cypress/runner/cypress_runner.js:151126:19)\nFrom Your Spec Code:\n    at Context.eval (cypress/e2e/step_definiation/homepage.js:80:19)"
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
             "line": 16,
-            "name": "I click the hotel button",
-            "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 17,
-            "name": "the hotel button action is verified",
-            "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "When ",
-            "line": 18,
             "name": "I click the sports button",
             "result": {
               "status": "skipped"
@@ -90,8 +104,26 @@
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 19,
+            "line": 17,
             "name": "the sports button action is verified",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 18,
+            "name": "I click the package button",
+            "result": {
+              "status": "skipped"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 19,
+            "name": "the package button action is verified",
             "result": {
               "status": "skipped"
             }
@@ -316,97 +348,7 @@
             "arguments": [],
             "keyword": "Then ",
             "line": 54,
-            "name": "the advanced search options should be validated",
-            "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "When ",
-            "line": 56,
-            "name": "I input \"DXB\" in the origin field",
-            "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 57,
-            "name": "I should select \"Dubai International Airport\" from the dropdown",
-            "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "When ",
-            "line": 60,
-            "name": "I select a date range for round trip",
-            "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 61,
-            "name": "the round trip date range is validated",
-            "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "When ",
-            "line": 62,
-            "name": "I select the departure date for one way",
-            "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 63,
-            "name": "the one-way date is validated",
-            "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "When ",
-            "line": 64,
-            "name": "I select the departure date for multi-city",
-            "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 65,
-            "name": "the multi-city date is validated",
-            "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "When ",
-            "line": 66,
-            "name": "I select the departure date for multi-city (3 segment)",
-            "result": {
-              "status": "skipped"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "Then ",
-            "line": 67,
-            "name": "the multi-city (3 segment) date is validated",
+            "name": "the advanced search options should be validate",
             "result": {
               "status": "skipped"
             }

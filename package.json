@@ -19,15 +19,14 @@
   "author": "prathap",
   "license": "ISC",
   "devDependencies": {
-    "@badeball/cypress-cucumber-preprocessor": "^21.0.2",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.3",
     "@cucumber/cucumber": "^11.0.1",
+    "@cypress/browserify-preprocessor": "^3.0.2",
     "@shelex/cypress-allure-plugin": "^2.40.2",
     "allure-commandline": "^2.32.0",
     "allure-cypress": "^3.0.5",
     "cucumber-html-reporter": "^6.0.0",
-    "cypress": "^13.15.2",
-    "cypress-cucumber-preprocessor": "^4.3.1",
+    "cypress": "^12.5.0",
     "cypress-file-upload": "^5.0.8",
     "cypress-log-to-output": "^1.1.2",
     "cypress-multi-reporters": "^2.0.4",
@@ -38,8 +37,8 @@
     "multiple-cucumber-html-reporter": "^3.8.0"
   },
   "cypress-cucumber-preprocessor": {
-    "nonGlobalStepDefinitions": true,
-    "step_definitions": "cypress/e2e/aos",
+    "nonGlobalStepDefinitions": false,
+    "step_definitions": "cypress/e2e/step_definiation",
     "cucumberJson": {
       "generate": true,
       "outputFolder": "cypress/cucumber-json",
@@ -48,6 +47,8 @@
     }
   },
   "dependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^21.0.3",
+    "cypress-cucumber-preprocessor": "^4.3.1",
     "cypress-real-events": "^1.13.0",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0",

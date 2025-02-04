@@ -1,4 +1,4 @@
-const cucumber = require('cypress-cucumber-preprocessor').default;
+const cucumber = require('cypress-cucumber-preprocessor').default
 const { defineConfig } = require("cypress");
 const xlsx = require('xlsx');
 const fs = require('fs');
@@ -11,7 +11,7 @@ const createEsbuildPlugin = require('@badeball/cypress-cucumber-preprocessor/esb
 module.exports = defineConfig({
   defaultCommandTimeout: 30000,
   env: {
-    url: "https://demoisland.preprod.amadeusonlinesuite.com/flight/search?"
+    url: "https://ngtest.amadeusonlinesuite.com/flight/search?"
     
   },
   e2e: {
@@ -101,7 +101,7 @@ module.exports = defineConfig({
       return config;
     },
    
-    specPattern: "cypress/e2e/*.feature",
+    specPattern: "cypress/e2e/feature/**/*.feature",
     supportFile: 'cypress/support/index.js',
     reporterOptions: {
       reportDir: "cypress/reports",
