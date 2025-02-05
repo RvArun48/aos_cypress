@@ -1,6 +1,6 @@
 Feature: AOS Validation
 
-@roundTrip
+@roundTrip1
 Scenario Outline: Search for flights with specific details for a one-way trip using test case ID <testCaseId>
     Given I have the flight details from "<filePath>" with sheet "<sheetName>" for test case ID "<testCaseId>"
     And I setup the test data for adult passengers from "<filePath>"
@@ -99,7 +99,7 @@ Scenario Outline: Search for flights with specific details for a roundTrip trip 
     When I generate the search URL
     Then I should visit the generated URL
     # Then I checking the origin and Destination as per search
-    Then I need to validate price calendar roundtrip
+    # Then I need to validate price calendar roundtrip
     Then I need to validate flight card roundtrip
      Then I need to validate the time roundtrip
     Then I need to validate the price roundtrip

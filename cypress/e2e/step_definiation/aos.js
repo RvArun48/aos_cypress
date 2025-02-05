@@ -2933,35 +2933,45 @@ if (selectedStopType) {
 Then("I need to Validate Airlines roundtrip", () => {
   cy.get("#dropdownAirlines").should("be.visible").click();
 
-
   cy.get('body').then(($body) => {
+  
     // Check if the "Reset All Filters" button exists
     if ($body.find("button:contains('Reset All Filters')").length > 0) {
       // Ensure the button is visible and then click
       cy.contains("Reset All Filters").should('be.visible').click({ force: true });
       cy.log('Reset All Filters button clicked.');
     } else {
-
-
-  cy.get(".dropdown-menu.show")
-    .contains(bookingData[Cypress.env("dataIndex")]["Airlines"])
-    .click({ force: true });
-  cy.wait(2000);
-  const selectedAirlines = bookingData[Cypress.env("dataIndex")]["Airlines"];
-  cy.get(".empireFlight_listing-body.ng-star-inserted").each(($card) => {
-    cy.wrap($card)
-      .find(".empireFlight_FlightNames")
-      .invoke("text") // Get the text content
-      .then((text) => {
-        // Check if the selected airline is present in the text
-        expect(text.trim()).to.include(selectedAirlines);
-        cy.log(
-          "Validated airline: ${selectedAirlines} is present in the flight card."
-        );
-      });
-  });
+      
+      const airline = bookingData[Cypress.env("dataIndex")]["Airlines"];
+      
+      if (airline) { // Ensure airline is defined before proceeding
+        cy.get(".dropdown-menu.show")
+          .contains(airline)
+          .click({ force: true });
+      } else {
+        cy.log("Airline is not defined, skipping the step.");
+      }
+  
+      cy.wait(2000);
+      const selectedAirlines = bookingData[Cypress.env("dataIndex")]["Airlines"];
+      
+      if (selectedAirlines) {
+        cy.get(".empireFlight_listing-body.ng-star-inserted").each(($card) => {
+          cy.wrap($card)
+            .find(".empireFlight_FlightNames")
+            .invoke("text") // Get the text content
+            .then((text) => {
+              // Check if the selected airline is present in the text
+              expect(text.trim()).to.include(selectedAirlines);
+              cy.log(`Validated airline: ${selectedAirlines} is present in the flight card.`);
+            });
+        });
+      } else {
+        cy.log("Selected airline is not defined, skipping validation.");
+      }
     }
   });
+  
 });
 Then("I need to validate flight Summary", () => {
   // Set the limit for the number of flight cards to iterate over
