@@ -10673,3 +10673,52 @@
 [04/02/2025, 12:32:03 IST] [INFO]: I enter the passenger title Mstr
 [04/02/2025, 12:32:37 IST] [INFO]: I enter the passenger title Miss
 [04/02/2025, 12:33:14 IST] [INFO]: I enter the passenger title Miss
+[05/02/2025, 10:18:00 IST] [INFO]: No airline available, skipping...
+[05/02/2025, 10:18:09 IST] [INFO]: No airline available, skipping...
+[05/02/2025, 10:20:29 IST] [INFO]: No airline available, skipping...
+[05/02/2025, 10:23:47 IST] [INFO]: I have the departure location as DXB
+[05/02/2025, 10:23:47 IST] [INFO]: I have the return location LHR
+[05/02/2025, 10:23:47 IST] [INFO]: I have the departure date 02-22-2025
+[05/02/2025, 10:23:47 IST] [INFO]: I have the cabin class Y
+[05/02/2025, 10:23:47 IST] [INFO]: I have the number of adults 1
+[05/02/2025, 10:23:47 IST] [INFO]: I have the number of children 2
+[05/02/2025, 10:23:47 IST] [INFO]: I have the number of infand 2
+[05/02/2025, 10:23:47 IST] [INFO]: I have the direct flight option set to false
+[05/02/2025, 10:23:47 IST] [INFO]: I have the baggage option set to false
+[05/02/2025, 10:23:47 IST] [INFO]: I have the refundable option set to false
+[05/02/2025, 10:23:48 IST] [INFO]: No airline available, skipping...
+[05/02/2025, 10:25:25 IST] [INFO]: I enter the passenger title Mr
+[05/02/2025, 10:26:31 IST] [INFO]: I enter the passenger title Mstr
+[05/02/2025, 10:27:38 IST] [INFO]: I enter the passenger title Mstr
+[05/02/2025, 10:27:56 IST] [INFO]: No airline available, skipping...
+[05/02/2025, 10:28:32 IST] [INFO]: No airline available, skipping...
+[05/02/2025, 10:30:19 IST] [INFO]: I have the departure location as DXB
+[05/02/2025, 10:30:19 IST] [INFO]: I have the return location LHR
+[05/02/2025, 10:30:19 IST] [INFO]: I have the departure date 02-22-2025
+[05/02/2025, 10:30:19 IST] [INFO]: I have the cabin class Y
+[05/02/2025, 10:30:19 IST] [INFO]: I have the number of adults 1
+[05/02/2025, 10:30:19 IST] [INFO]: I have the number of children 2
+[05/02/2025, 10:30:19 IST] [INFO]: I have the number of infand 2
+[05/02/2025, 10:30:19 IST] [INFO]: I have the direct flight option set to false
+[05/02/2025, 10:30:19 IST] [INFO]: I have the baggage option set to false
+[05/02/2025, 10:30:19 IST] [INFO]: I have the refundable option set to false
+[05/02/2025, 10:30:19 IST] [INFO]: No airline available, skipping...
+[05/02/2025, 10:31:53 IST] [INFO]: I enter the passenger title Mr
+[05/02/2025, 10:33:07 IST] [INFO]: I enter the passenger title Mstr
+[05/02/2025, 10:34:22 IST] [INFO]: I enter the passenger title Mstr
+[05/02/2025, 10:35:52 IST] [INFO]: I enter the passenger title Miss
+[05/02/2025, 10:37:32 IST] [INFO]: I enter the passenger title Miss
+[05/02/2025, 10:38:06 IST] [INFO]: I have the departure location as DXB
+[05/02/2025, 10:38:06 IST] [INFO]: I have the return location LHR
+[05/02/2025, 10:38:06 IST] [INFO]: I have the departure date 02-22-2025
+[05/02/2025, 10:38:06 IST] [INFO]: I have the cabin class Y
+[05/02/2025, 10:38:06 IST] [INFO]: I have the number of adults 1
+[05/02/2025, 10:38:06 IST] [INFO]: I have the number of children 2
+[05/02/2025, 10:38:06 IST] [INFO]: I have the number of infand 2
+[05/02/2025, 10:38:06 IST] [INFO]: I have the direct flight option set to false
+[05/02/2025, 10:38:06 IST] [INFO]: I have the baggage option set to false
+[05/02/2025, 10:38:06 IST] [INFO]: I have the refundable option set to false
+[05/02/2025, 10:38:06 IST] [INFO]: No airline available, skipping...
+[05/02/2025, 10:38:44 IST] [INFO]: No airline available, skipping...
+[05/02/2025, 10:39:32 IST] [INFO]: No airline available, skipping...
+[05/02/2025, 10:52:16 IST] [INFO]: No airline available, skipping...

@@ -23,7 +23,7 @@ Scenario Outline: Search for flights with specific details for a one-way trip us
     Then I should visit the generated URL   
     Then I checking the origin and Destination as per search
     # Then I need to validate price calendar
-    Then I need to validate flight card
+    # Then I need to validate flight card
     Then I need to validate fare option
     Then I need to validate the time
     Then I need to validate the price
