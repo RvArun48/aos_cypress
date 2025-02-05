@@ -2930,7 +2930,9 @@ if (selectedStopType) {
   cy.log("No stop type selected, skipping validation.");
 }
 });
-Then("I need to Validate Airlines roundtrip", () => {
+Then("I need to Validate airlines roundtrip", () => {
+  cy.get("#dropdownAirlines").should("be.visible").click();
+
   cy.get("#dropdownAirlines").should("be.visible").click();
 
   cy.get('body').then(($body) => {

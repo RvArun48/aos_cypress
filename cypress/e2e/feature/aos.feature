@@ -23,7 +23,7 @@ Scenario Outline: Search for flights with specific details for a one-way trip us
     Then I should visit the generated URL   
     Then I checking the origin and Destination as per search
     # Then I need to validate price calendar
-    # Then I need to validate flight card
+    Then I need to validate flight card
     Then I need to validate fare option
     Then I need to validate the time
     Then I need to validate the price
@@ -105,7 +105,7 @@ Scenario Outline: Search for flights with specific details for a roundTrip trip 
     Then I need to validate the price roundtrip
     Then I need to validate the stop roundtrip
     Then I need to validate Duration roundtrip
-    Then I need to Validate Airlines roundtrip
+    Then I need to Validate airlines roundtrip
     Then I need to validate Refundable Option
     Then I need to validate fare option
     Then I need to validate sortby filter roundtrip
