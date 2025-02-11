@@ -11,8 +11,8 @@ const createEsbuildPlugin = require('@badeball/cypress-cucumber-preprocessor/esb
 module.exports = defineConfig({
   defaultCommandTimeout: 30000,
   env: {
-    url: "https://ngtest.amadeusonlinesuite.com/flight/search?"
-    
+    url: "https://ngtest.amadeusonlinesuite.com/flight/search?",
+   urlb2b: "https://proddemob2b.amadeusonlinesuite.com/"
   },
   e2e: {
     setupNodeEvents(on, config) {
@@ -101,7 +101,7 @@ module.exports = defineConfig({
       return config;
     },
    
-    specPattern: "cypress/e2e/feature/**/*.feature",
+    specPattern: "cypress/e2e/b2c/feature/**/*.feature",
     supportFile: 'cypress/support/index.js',
     reporterOptions: {
       reportDir: "cypress/reports",

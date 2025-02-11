@@ -38,7 +38,7 @@
   },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": false,
-    "step_definitions": "cypress/e2e/step_definiation",
+    "step_definitions": "cypress/e2e/b2c/step_definiation",
     "cucumberJson": {
       "generate": true,
       "outputFolder": "cypress/cucumber-json",
@@ -54,7 +54,7 @@
     "winston-daily-rotate-file": "^5.0.0",
     "xlsx": "^0.18.5"
   },
-  "testFiles": "**/*.feature",
+  
   "env": {
     "TAGS": "@oneWay or @roundTrip or @multiCity3Seg or @multiCity6Seg"
   }
