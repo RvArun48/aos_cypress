@@ -2,9 +2,6 @@ import { Given } from "cypress-cucumber-preprocessor/steps";
 import "cypress-real-events/support";
 import 'cypress-soft-assertions';
 
-
-let filePath;
-let sheetName;
 let bookingData,
   adultData,
   childData,
@@ -16,11 +13,6 @@ let bookingData,
   tripType,
   i = 0;
 
-
-  
-
-
-  
 let issues = [];
 const excelDateToString = (excelDate) => {
   const epoch = new Date(Date.UTC(1900, 0, 1));
@@ -32,10 +24,10 @@ const excelDateToString = (excelDate) => {
   return `${month}-${day}-${year}`;
 };
 
-Given(
-  "I have the flight details from {string} with sheet {string} for test case ID {string}",
+Given("I have the flight details from {string} with sheet {string} for test case ID {string}",
   (filePath, sheetName, testCaseId) => {
     let index = parseInt(testCaseId.replace(/\D/g, ""), 10) - 1;
+
     cy.log("index->" + index);
     Cypress.env("dataIndex", index);
 
@@ -62,15 +54,14 @@ Given(
           );
         }
         cy.log("Sheet1 Data:", JSON.stringify(bookingData[index]));
-        // cy.log('Sheet2 Data:', JSON.stringify(sheet2Data[index]));
+
       }
     );
   }
 );
 
 
-Given(
-  "I setup the test data for adult passengers from {string}",
+Given("I setup the test data for adult passengers from {string}",
   (filePath) => {
     let sheetName = "Adult";
     cy.task("parseXlsxMultiSheet", { filePath, sheets: [sheetName] }).then(
@@ -78,46 +69,38 @@ Given(
         adultData = data[sheetName];
         Cypress.env("adultData", adultData);
         if (Array.isArray(adultData)) {
-          // Loop through each row if childData is an array
+
           adultData.forEach((rowData, index) => {
             cy.log(`adult Data Row ${index}:`, JSON.stringify(rowData));
           });
         } else if (adultData && typeof adultData === "object") {
-          // Handle a single row as an object
+
           cy.log("Single Row adult Data:", JSON.stringify(adultData));
         } else {
           cy.log("No data found in adult sheet");
         }
 
         cy.log("Adult Data:", JSON.stringify(adultData[0]));
-        // cy.log('Sheet2 Data:', JSON.stringify(sheet2Data[index]));
+
       }
     );
   }
 );
 
-Given(
-  "I setup the test data for child passengers from {string}",
+Given("I setup the test data for child passengers from {string}",
   (filePath) => {
     let sheetName = "Child";
     cy.task("parseXlsxMultiSheet", { filePath, sheets: [sheetName] }).then(
       (data) => {
         childData = data[sheetName];
-
         Cypress.env("childData", childData);
-
-        // if (!childData[index]) {
-        //   throw new Error(`Row with index ${index} does not exist in one or both sheets.`);
-        // }
         cy.log("Child Data:", JSON.stringify(childData[0]));
-        // cy.log('Sheet2 Data:', JSON.stringify(sheet2Data[index]));
       }
     );
   }
 );
 
-Given(
-  "I setup the test data for infant passengers from {string}",
+Given("I setup the test data for infant passengers from {string}",
   (filePath) => {
     let sheetName = "Infant";
     cy.task("parseXlsxMultiSheet", { filePath, sheets: [sheetName] }).then(
@@ -131,9 +114,7 @@ Given(
   }
 );
 
-Given("I setup the test data for card details from {string}", (filePath) => {});
-
-// Define the base URL and default query parameters
+Given("I setup the test data for card details from {string}", (filePath) => { });
 let baseUrl = Cypress.env("url");
 let params_ow = {
   dep1: "",
@@ -153,32 +134,31 @@ let params_ow = {
   ref: "false",
   lc: "EN",
   ipc: "false",
-  currtime: Date.now(), // dynamically sets the current timestamp
+  currtime: Date.now(),
 };
 
 let params_rt = {
-  dep1: "", // Departure location for leg 1
-  ret1: "", // Return location for leg 1
-  dtt1: "", // Departure date for leg 1
-  cl1: "", // Cabin class for leg 1
-  dep2: "", // Departure location for leg 2 (return)
-  ret2: "", // Return location for leg 2 (if needed)
-  dtt2: "", // Departure date for leg 2
-  cl2: "", // Cabin class for leg 2
-  mgcc: "IN", // Market country code
-  triptype: "", // Trip type (1 = one-way, 2 = round-trip)
-  adult: "", // Number of adult passengers
-  child: "", // Number of child passengers
-  infant: "", // Number of infant passengers
-  direct: "", // Direct flight option
-  baggage: "", // Baggage option
-  pft: "", // Placeholder for optional features
-  key: "IRT", // Search type key (IRT for international round-trip)
-  airlines: "", // Airlines filter
-  ref: "false", // Refundable option
-  lc: "EN", // Language code
-  ipc: "false", // IPC status (false for no IPC)
-  currtime: Date.now(), // Dynamic timestamp
+  dep1: "",
+  ret1: "",
+  dtt1: "",
+  dep2: "",
+  ret2: "",
+  dtt2: "",
+  cl2: "",
+  mgcc: "IN",
+  triptype: "",
+  adult: "",
+  child: "",
+  infant: "",
+  direct: "",
+  baggage: "",
+  pft: "",
+  key: "IRT",
+  airlines: "",
+  ref: "false",
+  lc: "EN",
+  ipc: "false",
+  currtime: Date.now(),
 };
 
 let params_ms3 = {
@@ -494,8 +474,6 @@ Given("I have the cabin class five", () => {
   }
 });
 
-
-
 Given('I have the return date', () => {
   const excelDate = bookingData[Cypress.env('dataIndex')]['Return Date'];
   if (tripType === 'OW') {
@@ -506,10 +484,6 @@ Given('I have the return date', () => {
   }
   cy.log(`Fetched Return Date: ${params_ow.dtt1 || params_rt.dtt1}`);
 });
-
-
-
-
 
 Given("I have the departure location six", () => {
   if (tripType === "NMC") {
@@ -732,50 +706,38 @@ When("I generate the search URL", () => {
 Then("I should visit the generated URL", function () {
   cy.get("@generatedUrl").then((url) => {
     cy.visit(url);
-   
+
   });
 });
 
 const flightDetails = () => {
   cy.contains("Flight details").should("be.visible");
 
-  cy.get(".empireFlight_details-text") // Shortened selector for flight details
-    .should("have.length.greaterThan", 0) // Ensure there are flight details available
+  cy.get(".empireFlight_details-text")
+    .should("have.length.greaterThan", 0)
     .then(($flightDetails) => {
-      // Log the number of flight details to the console for debugging
+
       cy.log(`Found ${$flightDetails.length} flight details`);
-
-      // Generate a random index based on the number of available flight details
       const randomIndex = Math.floor(Math.random() * $flightDetails.length);
-
-      // Log the selected random index
       cy.log(`Selected flight detail index: ${randomIndex}`);
-
-      // Click the random flight detail
       cy.wrap($flightDetails[randomIndex]).click();
+      cy.wait(1000);
+    });
 
-      // Optionally, you can add a wait for the details to load or for a new page to appear
-      cy.wait(1000); // Adjust based on your loading times, or use .should('be.visible') on a new element
-    });
-  
-    cy.get('body').then(($body) => {
-      if ($body.find(".common_popupCard").length > 0) { // Check if the element exists
+  cy.get('body').then(($body) => {
+    if ($body.find(".common_popupCard").length > 0) {
       cy.get('.common_popupFooter > .btn')
-          .should('be.visible') // Ensure the element is visible
-          .click(); // Click the element
-      } else {
-        cy.log('Popup does not appear. Skipping this step.');
-      }
-    });
-    
+        .should('be.visible')
+        .click();
+    } else {
+      cy.log('Popup does not appear. Skipping this step.');
+    }
+  });
+
 };
 
-
-
-
-
 Then("I click on the flight details", () => {
-  
+
   flightDetails();
 });
 const clickBookNow = (passengerType) => {
@@ -785,12 +747,10 @@ Then("I click on the booknow", () => {
   clickBookNow();
 });
 
-
-
 const fillTravellerDetails = (passengerType) => {
   let dataSet;
   let dataLimit;
- 
+
 
   if (passengerType === "Adult") {
     dataSet = Cypress.env("adultData");
@@ -802,17 +762,13 @@ const fillTravellerDetails = (passengerType) => {
     dataSet = Cypress.env("infantData");
     dataLimit = Cypress.env("infantCount");
   }
- 
+
   dataSet.forEach((rowData, index) => {
     cy.log(`${passengerType} Data Row ${index}:`, JSON.stringify(rowData));
 
-  
-
     if (index >= 0 && index < dataLimit) {
-      // Access specific fields in rowData if needed
-      // e.g., cy.log(`Child Name: ${rowData['Name']}`);
-      cy
-        .get("[formcontrolname='Title']")
+
+      cy.get("[formcontrolname='Title']")
         .eq(i)
         .click()
         .should("be.visible")
@@ -822,20 +778,17 @@ const fillTravellerDetails = (passengerType) => {
           "I enter the passenger title " + rowData["Title"]
         );
 
-      cy
-        .get("[formcontrolname='FirstName']")
+      cy.get("[formcontrolname='FirstName']")
         .eq(i)
         .click()
         .should("be.visible")
         .type(rowData["First Name"]),
-        cy
-          .get("[formcontrolname='LastName']")
+        cy.get("[formcontrolname='LastName']")
           .eq(i)
           .click()
           .should("be.visible")
           .type(rowData["Last Name"]),
-        cy
-          .get("[formcontrolname='BirthDate']")
+        cy.get("[formcontrolname='BirthDate']")
           .eq(i)
           .click()
           .should("be.visible")
@@ -851,9 +804,9 @@ const fillTravellerDetails = (passengerType) => {
         .contains(rowData["DOB Month"])
         .should("be.visible") // Ensure the option is visible
         .click();
-      
 
-        cy.get("[formcontrolname='BirthYear']")
+
+      cy.get("[formcontrolname='BirthYear']")
         .eq(i)
         .click()
         .should("be.visible")
@@ -861,33 +814,16 @@ const fillTravellerDetails = (passengerType) => {
         .contains(rowData["DOB Year"])
         .should("be.visible") // Ensure the option is visible
         .click();
-        
-       
-    
-      
-      
-      
 
       // cy.get('body').then(($body) => {
       //   if ($body.find("[formcontrolname='BirthYear']").length > 0) {
       //     cy.log('BirthYear is present, filling in the details.');
-          
+
       //     birthYear();
       //   } else {
       //     cy.log('BirthYear is not present. Skipping this step.');
       //   }
       // });
-
-      
-      
-       
-
-     
-     
-
-
-
-
 
       // cy.get('body').then(($body) => {
       //   if ($body.find(":contains('Document Type')").length > 0) {
@@ -895,119 +831,111 @@ const fillTravellerDetails = (passengerType) => {
 
       //     const documentType = rowData['Document type'];
       //     cy.contains(documentType).click({ force: true });
-      
-        // if (documentType === 'Passport Information') {
-          
 
-          cy.get("[formcontrolname='DocumentNumber']")
-            .eq(i)
-            .should('be.visible') // Ensures the element is visible
-            .click()
-            .type(rowData["Passport No"])
-            .should("be.visible") // Ensure the option is visible
-            .click();
-      
-          cy.get("[formcontrolname='Nationality']")
-          .eq(i)
-            .should('be.visible') // Ensures the element is visible
-            .click()
-            .type(rowData["Nationality"])
-            .contains(rowData["Nationality"])
-            .should("be.visible") // Ensure the option is visible
-            .click();
-          
-          
-              cy.get("[formcontrolname='DocumentIssuingCountry']")
-              .eq(i)
-              .should('be.visible') // Ensures the element is visible
-              .click()
-                .type(rowData["Issuing Country"])
-                .contains(rowData["Issuing Country"])
-                .should("be.visible") // Ensure the option is visible
-                .click();
-          
-          
-          
-                cy.get("[formcontrolname='DocumentIssueDay']")
-                .eq(i)
-                .should('be.visible') // Ensures the element is visible
-                  .click()
-                  
-                  .type(rowData["PID Date"])
-                  .contains(rowData["PID Date"])
-                  .should("be.visible") // Ensure the option is visible
-                  .click();
-          
-                  cy.get("[formcontrolname='DocumentIssueMonth']")
-                  .eq(i)
-                  .should('be.visible') // Ensures the element is visible
-                  .click()
-                    .type(rowData["PID Month"])
-                    .contains(rowData["PID Month"])
-                    .should("be.visible") // Ensure the option is visible
-                    .click();
-          
-                    cy.get("[formcontrolname='DocumentIssueYear']")
-                    .eq(i)
-                    .should('be.visible') // Ensures the element is visible
-                    .click()
-                      .type(rowData["PID Year"])
-                      .contains(rowData["PID Year"])
-                      .should("be.visible") // Ensure the option is visible
-                      .click();
-          
-          
-          
-          
-          
-          
-          
-          
-                      cy.get("[formcontrolname='DocumentExpiryDay']")
-                      .eq(i)
-                      .should('be.visible') // Ensures the element is visible
-                        .click()
-                        
-                        .type(rowData["PED Date"])
-                        .contains(rowData["PED Date"])
-                        .should("be.visible") // Ensure the option is visible
-                        .click();
-                
-                        cy.get("[formcontrolname='DocumentExpiryMonth']")
-                        .eq(i)
-                        .should('be.visible') // Ensures the element is visible
-                        .click()
-                          .type(rowData["PED Month"])
-                          .contains(rowData["PED Month"])
-                          .should("be.visible") // Ensure the option is visible
-                          .click();
-                
-                          cy.get("[formcontrolname='DocumentExpiryYear']")
-                          .eq(i)
-                          .should('be.visible') // Ensures the element is visible
-                          .click()
-                            .type(rowData["PED Year"])
-                            .contains(rowData["PED Year"])
-                            .should("be.visible") // Ensure the option is visible
-                            .click();
-          
-          
-          
+      // if (documentType === 'Passport Information') {
 
-         
-        // } else if (documentType === 'National ID (Only for GCC Nationals)') {
+
+      cy.get("[formcontrolname='DocumentNumber']")
+        .eq(i)
+        .should('be.visible') 
+        .type(rowData["Passport No"])
+        .should("be.visible") 
+        .click();
+
+      cy.get("[formcontrolname='Nationality']")
+        .eq(i)
+        .should('be.visible') 
+        .click()
+        .type(rowData["Nationality"])
+        .contains(rowData["Nationality"])
+        .should("be.visible") 
+        .click();
+
+
+      cy.get("[formcontrolname='DocumentIssuingCountry']")
+        .eq(i)
+        .should('be.visible') 
+        .click()
+        .type(rowData["Issuing Country"])
+        .contains(rowData["Issuing Country"])
+        .should("be.visible") 
+        .click();
+
+
+
+      cy.get("[formcontrolname='DocumentIssueDay']")
+        .eq(i)
+        .should('be.visible') 
+        .click()
+
+        .type(rowData["PID Date"])
+        .contains(rowData["PID Date"])
+        .should("be.visible") 
+        .click();
+
+      cy.get("[formcontrolname='DocumentIssueMonth']")
+        .eq(i)
+        .should('be.visible') 
+        .click()
+        .type(rowData["PID Month"])
+        .contains(rowData["PID Month"])
+        .should("be.visible") 
+        .click();
+
+      cy.get("[formcontrolname='DocumentIssueYear']")
+        .eq(i)
+        .should('be.visible') 
+        .click()
+        .type(rowData["PID Year"])
+        .contains(rowData["PID Year"])
+        .should("be.visible") 
+        .click();
+
+      cy.get("[formcontrolname='DocumentExpiryDay']")
+        .eq(i)
+        .should('be.visible') 
+        .click()
+
+        .type(rowData["PED Date"])
+        .contains(rowData["PED Date"])
+        .should("be.visible") 
+        .click();
+
+      cy.get("[formcontrolname='DocumentExpiryMonth']")
+        .eq(i)
+        .should('be.visible') 
+        .click()
+        .type(rowData["PED Month"])
+        .contains(rowData["PED Month"])
+        .should("be.visible") 
+        .click();
+
+      cy.get("[formcontrolname='DocumentExpiryYear']")
+        .eq(i)
+        .should('be.visible') 
+        .click()
+        .type(rowData["PED Year"])
+        .contains(rowData["PED Year"])
+        .should("be.visible") 
+        .click();
+
+
+
+
+
+      // } else if (documentType === 'National ID (Only for GCC Nationals)') {
       //     // Fill Local ID details
-         
+
       //   }
       //  else if (documentType === ' Iqama ID(Saudi Residence for Foreigners)') {
       //   // Fill Local ID details
-       
+
       //   }
       // else if (documentType === 'Local ID') {
       //   cy.get('body').then(($body) => {
       //     if ($body.find("[formcontrolname='FormofIdentityNumber']").length > 0) {
       //       cy.log('FormofIdentityNumber is present, filling in the details.');
-        
+
       //       cy.get("[formcontrolname='FormofIdentityNumber']")
       //         .eq(i)
       //         .should('be.visible') // Ensures the element is visible before interacting
@@ -1018,18 +946,10 @@ const fillTravellerDetails = (passengerType) => {
       //     }
 
       //   });
-    //     }
-      
-    //   }
-    // });
-      
-      
-      
-      
-      
-      
-      
-      
+      //     }
+
+      //   }
+      // });
 
       if (i == totalPassengersCount - 1) {
         i = 0;
@@ -1038,20 +958,13 @@ const fillTravellerDetails = (passengerType) => {
         cy.log("inside else");
         i++;
       }
-     }
+    }
   });
 };
-
-
-
-
-
 
 Then("I need to add the traveller details for {string}", (passengerType) => {
   fillTravellerDetails(passengerType);
 });
-    
-
 
 Then("I need to add the passenger common details", () => {
   cy.get("[formcontrolname='EmailAddress']")
@@ -1077,9 +990,9 @@ const paymentContinue = () => {
   cy.contains("Payfort Test").click();
 
   cy.get('body').then(($body) => {
-   
+
     if ($body.find("#terms_cond_checkbox").length > 0) {
-   
+
       cy.get('#terms_cond_checkbox').should('be.visible').click({ force: true });
       cy.log('Reset All Filters button clicked.');
     } else {
@@ -1089,13 +1002,7 @@ const paymentContinue = () => {
 
   cy.contains(" Proceed to Pay ").click();
 
-
-
-
-
 };
-
-
 
 Then("I need to click continue to payment", () => {
 
@@ -1103,52 +1010,47 @@ Then("I need to click continue to payment", () => {
 });
 
 Then("I need to enter card details", () => {
+
+
  
-  
-  // Wait for redirection before interacting with elements on sbcheckout.payfort.com
   cy.origin("https://sbcheckout.payfort.com", () => {
     cy.log("Navigated to sbcheckout.payfort.com, filling in payment details.");
-  
+
     cy.get('input[id="cardNoInput"]').should('be.visible').type("4005550000000001", { force: true });
     cy.get("#expDateInput").should('be.visible').type("05/25", { force: true });
     cy.get("#cvvInput").should('be.visible').type("123", { force: true });
     cy.get('input[id="chNameInput"]').should('be.visible').type("Arun", { force: true });
-  
-    // Ensure submit button is clickable before clicking
+
+   
     cy.get("#submitBtn").should('be.visible').click({ force: true });
-  
+
     cy.url().then((confirmationUrl) => {
       cy.log("Confirmation URL:", confirmationUrl);
     });
   });
-  
-  
 });
 
 Then("I need to validate confirmation page", () => {
   cy.wait(20000);
 
-  // Define possible booking statuses
-  const bookingStatuses = [
+ const bookingStatuses = [
     "Your booking is Confirmed",
     "Your booking is Pending",
     "Your booking is On hold",
   ];
-
-  // Check for any of the booking statuses
-  cy.get(".empireFlight_confirmBookingStatus")
-    .should("be.visible") // Ensure the booking status is visible
+cy.get(".empireFlight_confirmBookingStatus")
+    .should("be.visible") 
     .then(($el) => {
-      const bookingStatus = $el.text().trim(); // Extract the booking status text
+      const bookingStatus = $el.text().trim(); 
       cy.log(`Detected Booking Status: ${bookingStatus}`);
 
-      // Check if the detected booking status matches any expected status
+     
       if (bookingStatuses.some((status) => bookingStatus.includes(status))) {
         cy.log(`Ticket booking status is: ${bookingStatus}`);
-        // Optionally take a screenshot for verification
+       
         cy.screenshot(`Ticket Booking Status - ${bookingStatus}`);
       } else {
-        // Log and screenshot for unexpected booking statuses
+        //
         cy.log("Ticket booking is unsuccessful");
         cy.screenshot("Ticket Booking - Unsuccessful");
         throw new Error(`Unexpected booking status: ${bookingStatus}`);
@@ -1162,92 +1064,72 @@ Then("I need to validate confirmation page", () => {
     .then((tripId) => {
       cy.log("Trip Id : " + tripId);
     });
-  
-    cy.get('body').then(($body) => {
-      if ($body.find(".empireFlight_confirmPnr").length > 0) {
-        cy.log('Pnr Status');
-    
-  cy.get(".empireFlight_confirmPnr")
-  .invoke("text")
-  .should("not.be.empty")
-  .then((pnr) => {
-    cy.log("PNR : " + pnr);
+
+  cy.get('body').then(($body) => {
+    if ($body.find(".empireFlight_confirmPnr").length > 0) {
+      cy.log('Pnr Status');
+
+      cy.get(".empireFlight_confirmPnr")
+        .invoke("text")
+        .should("not.be.empty")
+        .then((pnr) => {
+          cy.log("PNR : " + pnr);
+        });
+
+    } else {
+      cy.log('Pnr Status is not present. Skipping this step.');
+    }
   });
-       
-      } else {
-        cy.log('Pnr Status is not present. Skipping this step.');
-      }
-    });
-
-
-
-
-
-
-
-
-
-
-  
 
 });
 
 Then("I checking the origin and Destination as per search", () => {
- 
+
   cy.get(".empireFlight_listing-card .empireFlight_airline-nameWrapper").each(
     ($el, index) => {
-      // Extract the expected text
+      
       let expectedText =
         bookingData[Cypress.env("dataIndex")]["Departure Relevant Keyword"] +
-        " to"+
+        " to" +
         bookingData[Cypress.env("dataIndex")]["Return Relevant Keyword"];
-  
+
       cy.log("bookingData->" + JSON.stringify(bookingData));
       cy.log("expectedText->" + expectedText);
-  
-      // Wrap the element and assert its text softly
       cy.wrap($el)
         .invoke("text")
         .then((text) => {
           const actualText = text.trim();
-          cy.log("Actual Text: " + actualText); // Log the actual text for debugging
-  
-          // Perform soft assertion
+          cy.log("Actual Text: " + actualText); 
           cy.softAssert(() => {
             expect(actualText).to.equal(expectedText);
           }, `Assertion failed at index ${index}: Expected "${expectedText}", but found "${actualText}"`);
         });
     }
   ).then(() => {
-    // Ensure all soft assertions are logged at the end
     cy.softAssertAll();
   });
-  
-  });
+
+});
 
 
 Then("I need to validate the time", () => {
   cy.get(".empireFlight_FlightTime")
     .first()
-    .invoke("text") // Get the initial flight time
-    .as("initialFlightTime"); // Store it in a variable
-
-  // Ensure the dropdown is visible and click on it
+    .invoke("text") 
+    .as("initialFlightTime"); 
+  
   cy.get("#dropdownTime")
-    .should("be.visible") // Ensure the dropdown is visible before clicking
+    .should("be.visible") 
     .click();
 
   cy.get("span.ngx-slider-pointer")
-    .first() // Selects the first slider handle
+    .first()
     .invoke("attr", "style", "left: 30%")
     .trigger("mousedown", { which: 1, force: true })
     .click({ force: true })
-    .trigger("mousemove", { clientX: 500, force: true }) // Adjust as needed
+    .trigger("mousemove", { clientX: 500, force: true })
     .trigger("mouseup", { force: true });
 
-  // Optionally click to confirm the slider position change
-
-  // Adjust the right slider (second slider)
   cy.get("span.ngx-slider-pointer")
     .eq(1)
     .invoke("attr", "style", "left: 80%") // Set the position of the right slider
@@ -1256,9 +1138,9 @@ Then("I need to validate the time", () => {
 
   // Optionally, wait to ensure the UI has time to update (if animations or async operations are involved)
   cy.wait(500);
-  
-  
-  
+
+
+
   cy.get('body').then(($body) => {
     // Check if the "Reset All Filters" button exists
     if ($body.find("button:contains('Reset All Filters')").length > 0) {
@@ -1295,66 +1177,66 @@ Then("I need to validate the time", () => {
 Then("I need to validate the stop", () => {
   const selectedStopType = bookingData[Cypress.env("dataIndex")]["Stop"];
 
-// Check and click "Reset All Filters" before proceeding
-cy.get('body').then(($body) => {
-  if ($body.find("button:contains('Reset All Filters')").length > 0) {
-    cy.contains("Reset All Filters").should('be.visible').click({ force: true });
-    cy.log('Reset All Filters button clicked.');
-  } else {
-    cy.log("Reset All Filters button not found, proceeding.");
-  }
-});
-
-if (selectedStopType) {
-  // Open the stop type dropdown
-  cy.get("#dropdownStops").should("be.visible").click();
-
-  cy.get(".empireFlight_filterlist-dropdown-items")
-    .contains(selectedStopType)
-    .click({ force: true });
-
-  cy.wait(2000); // Wait for flight results to update
-
-  // Check if any flight cards are displayed
+  // Check and click "Reset All Filters" before proceeding
   cy.get('body').then(($body) => {
-    if ($body.find(".empireFlight_cardbox").length === 0) {
-      // No flights found, reset filters
-      cy.log(`No flights found for ${selectedStopType}, resetting filters.`);
+    if ($body.find("button:contains('Reset All Filters')").length > 0) {
       cy.contains("Reset All Filters").should('be.visible').click({ force: true });
+      cy.log('Reset All Filters button clicked.');
     } else {
-      // Validate flight results based on the selected stop type
-      cy.get(".empireFlight_cardbox").each(($card) => {
-        if (selectedStopType === "Non Stop") {
-          cy.wrap($card)
-            .find(".empireF_directionTxt")
-            .invoke("text")
-            .then((text) => {
-              expect(text.trim()).to.eq("Direct"); // Assert that the flight direction is "Direct"
-              cy.log("Non Stop flight validated: " + text.trim());
-            });
-        } else if (selectedStopType === "1 Stop") {
-          cy.wrap($card)
-            .find(".empireFlight_stop > span")
-            .invoke("text")
-            .then((text) => {
-              expect(text.trim()).to.include("1 Stop via"); // Assert that the flight contains "1 Stop via"
-              cy.log("1 Stop flight validated: " + text.trim());
-            });
-        } else if (selectedStopType === "2 Stops") {
-          cy.wrap($card)
-            .find(".empireFlight_stopvia.ng-star-inserted")
-            .invoke("text")
-            .then((text) => {
-              expect(text.trim()).to.include("2 Stop via"); // Assert that the flight contains "2 Stop via"
-              cy.log("2 Stops flight validated: " + text.trim());
-            });
-        }
-      });
+      cy.log("Reset All Filters button not found, proceeding.");
     }
   });
-} else {
-  cy.log("No stop type selected, skipping validation.");
-}
+
+  if (selectedStopType) {
+    // Open the stop type dropdown
+    cy.get("#dropdownStops").should("be.visible").click();
+
+    cy.get(".empireFlight_filterlist-dropdown-items")
+      .contains(selectedStopType)
+      .click({ force: true });
+
+    cy.wait(2000); // Wait for flight results to update
+
+    // Check if any flight cards are displayed
+    cy.get('body').then(($body) => {
+      if ($body.find(".empireFlight_cardbox").length === 0) {
+        // No flights found, reset filters
+        cy.log(`No flights found for ${selectedStopType}, resetting filters.`);
+        cy.contains("Reset All Filters").should('be.visible').click({ force: true });
+      } else {
+        // Validate flight results based on the selected stop type
+        cy.get(".empireFlight_cardbox").each(($card) => {
+          if (selectedStopType === "Non Stop") {
+            cy.wrap($card)
+              .find(".empireF_directionTxt")
+              .invoke("text")
+              .then((text) => {
+                expect(text.trim()).to.eq("Direct"); // Assert that the flight direction is "Direct"
+                cy.log("Non Stop flight validated: " + text.trim());
+              });
+          } else if (selectedStopType === "1 Stop") {
+            cy.wrap($card)
+              .find(".empireFlight_stop > span")
+              .invoke("text")
+              .then((text) => {
+                expect(text.trim()).to.include("1 Stop via"); // Assert that the flight contains "1 Stop via"
+                cy.log("1 Stop flight validated: " + text.trim());
+              });
+          } else if (selectedStopType === "2 Stops") {
+            cy.wrap($card)
+              .find(".empireFlight_stopvia.ng-star-inserted")
+              .invoke("text")
+              .then((text) => {
+                expect(text.trim()).to.include("2 Stop via"); // Assert that the flight contains "2 Stop via"
+                cy.log("2 Stops flight validated: " + text.trim());
+              });
+          }
+        });
+      }
+    });
+  } else {
+    cy.log("No stop type selected, skipping validation.");
+  }
 });
 
 
@@ -1483,75 +1365,75 @@ Then("I need to validate sortby filter", () => {
 Then("I need to validate the price", () => {
   cy.get("#dropdownPrice").should("be.visible").click(); // Open the dropdown if it’s a dropdown slider
 
-cy.get(".empireFlight_amountWrapper > h2") // Adjust selector for price elements on flight cards
-  .invoke("text")
-  .as("initialPrices");
+  cy.get(".empireFlight_amountWrapper > h2") // Adjust selector for price elements on flight cards
+    .invoke("text")
+    .as("initialPrices");
 
-cy.get("@initialPrices").then((initialPrices) => {
-  cy.log(`Initial Prices: ${initialPrices}`);
+  cy.get("@initialPrices").then((initialPrices) => {
+    cy.log(`Initial Prices: ${initialPrices}`);
 
-  cy.get("span.ngx-slider-pointer")
-  .eq(2)
-  .first()
-  .invoke("attr", "style", "left: 30%")
+    cy.get("span.ngx-slider-pointer")
+      .eq(2)
+      .first()
+      .invoke("attr", "style", "left: 30%")
 
-  //     .click({ force: true }) // Selects the first slider handle (for min price)
-  .trigger("mousedown", { which: 1, force: true })
-  .click({ force: true })
-  .trigger("mousemove", { clientX: 300, force: true }) // Adjust the clientX value as needed to set the price
-  .trigger("mouseup", { force: true });
+      //     .click({ force: true }) // Selects the first slider handle (for min price)
+      .trigger("mousedown", { which: 1, force: true })
+      .click({ force: true })
+      .trigger("mousemove", { clientX: 300, force: true }) // Adjust the clientX value as needed to set the price
+      .trigger("mouseup", { force: true });
 
-// Adjust the right (maximum) price slider
-cy.get("span.ngx-slider-pointer")
-  .eq(3)
-  .invoke("attr", "style", "left: 60%")
-  // Selects the second slider handle (for max price)
-  .trigger("mousedown", { which: 1, force: true })
-  .click({ force: true })
-  .trigger("mousemove", { clientX: 700, force: true }) // Adjust the clientX value as needed to set the price
-  .trigger("mouseup", { force: true });
+    // Adjust the right (maximum) price slider
+    cy.get("span.ngx-slider-pointer")
+      .eq(3)
+      .invoke("attr", "style", "left: 60%")
+      // Selects the second slider handle (for max price)
+      .trigger("mousedown", { which: 1, force: true })
+      .click({ force: true })
+      .trigger("mousemove", { clientX: 700, force: true }) // Adjust the clientX value as needed to set the price
+      .trigger("mouseup", { force: true });
 
-// Wait for UI to update after slider adjustment
-  // Wait for UI to update after slider adjustment
-  cy.wait(500);
+    // Wait for UI to update after slider adjustment
+    // Wait for UI to update after slider adjustment
+    cy.wait(500);
 
-  cy.get("body").then(($body) => {
-    if ($body.find("button:contains('Reset All Filters')").length > 0) {
-      cy.contains("Reset All Filters").should("be.visible").click({ force: true });
-      cy.log("Reset All Filters button clicked.");
-    } else {
-      cy.get(".empireFlight_amountWrapper > h2") // Adjust selector for price elements on flight cards
-        .invoke("text")
-        .as("updatedPrices");
+    cy.get("body").then(($body) => {
+      if ($body.find("button:contains('Reset All Filters')").length > 0) {
+        cy.contains("Reset All Filters").should("be.visible").click({ force: true });
+        cy.log("Reset All Filters button clicked.");
+      } else {
+        cy.get(".empireFlight_amountWrapper > h2") // Adjust selector for price elements on flight cards
+          .invoke("text")
+          .as("updatedPrices");
 
-      cy.get("@updatedPrices").then((updatedPrices) => {
-        cy.log(`Updated Prices: ${updatedPrices}`);
+        cy.get("@updatedPrices").then((updatedPrices) => {
+          cy.log(`Updated Prices: ${updatedPrices}`);
 
-        // Convert prices into an array for comparison (assuming a comma-separated format)
-        const initialPriceArray = initialPrices
-          .split(",")
-          .map((price) => parseFloat(price.replace(/AED\s*/, "").replace(",", "")));
+          // Convert prices into an array for comparison (assuming a comma-separated format)
+          const initialPriceArray = initialPrices
+            .split(",")
+            .map((price) => parseFloat(price.replace(/AED\s*/, "").replace(",", "")));
 
-        const updatedPriceArray = updatedPrices
-          .split(",")
-          .map((price) => parseFloat(price.replace(/AED\s*/, "").replace(",", "")));
+          const updatedPriceArray = updatedPrices
+            .split(",")
+            .map((price) => parseFloat(price.replace(/AED\s*/, "").replace(",", "")));
 
-        // Check that at least one price has changed
-        const hasChanged = initialPriceArray.some(
-          (price, index) => price !== updatedPriceArray[index]
-        );
+          // Check that at least one price has changed
+          const hasChanged = initialPriceArray.some(
+            (price, index) => price !== updatedPriceArray[index]
+          );
 
-        // Soft assertion to check if at least one price is updated
-        cy.softAssert(() => {
-          expect(hasChanged).to.be.true;
-        }, "At least one price should be updated after adjusting the slider.");
-      });
-    }
+          // Soft assertion to check if at least one price is updated
+          cy.softAssert(() => {
+            expect(hasChanged).to.be.true;
+          }, "At least one price should be updated after adjusting the slider.");
+        });
+      }
+    });
+  }).then(() => {
+    // Ensure all soft assertions are logged at the end
+    cy.softAssertAll();
   });
-}).then(() => {
-  // Ensure all soft assertions are logged at the end
-  cy.softAssertAll();
-});
 
 });
 
@@ -1698,21 +1580,21 @@ Then("I need to validate flight card", () => {
         cy.log("Flight Name: " + flightName);
       });
 
-      cy.get('body').then(($body) => {
-        if ($body.find(".LCC_Wrapper.ng-star-inserted").length > 0) {
-     
-          cy.get('@flightCard').find('.LCC_Wrapper.ng-star-inserted').then(($lcc) => {
-            if ($lcc.length > 0) {
-              cy.wrap($lcc).invoke('text').should('not.be.empty').then((text) => {
-                cy.log('LCC: ' + text);
-              });
-            }
-          });
-        
-        } else {
-          cy.log('LCC Wrapper check is not present. Skipping this step.');
-        }
-      });
+    cy.get('body').then(($body) => {
+      if ($body.find(".LCC_Wrapper.ng-star-inserted").length > 0) {
+
+        cy.get('@flightCard').find('.LCC_Wrapper.ng-star-inserted').then(($lcc) => {
+          if ($lcc.length > 0) {
+            cy.wrap($lcc).invoke('text').should('not.be.empty').then((text) => {
+              cy.log('LCC: ' + text);
+            });
+          }
+        });
+
+      } else {
+        cy.log('LCC Wrapper check is not present. Skipping this step.');
+      }
+    });
 
     // Validate flight start time
     cy.get("@flightCard")
@@ -1838,22 +1720,22 @@ Then("I need to validate flight card", () => {
         cy.log("End Time: " + endTime);
       });
 
-      cy.get('body').then(($body) => {
-        if ($body.find(".empireFlight_FlightCode.empireFlight_DepartCode").length > 0) {
-     
-    cy.get("@flightCard")
-      .find(".empireFlight_FlightCode.empireFlight_DepartCode")
-      .invoke("text")
-      .should("not.be.empty")
-      .then((destination) => {
-        cy.log("Destination: " + destination);
-  
-          
+    cy.get('body').then(($body) => {
+      if ($body.find(".empireFlight_FlightCode.empireFlight_DepartCode").length > 0) {
+
+        cy.get("@flightCard")
+          .find(".empireFlight_FlightCode.empireFlight_DepartCode")
+          .invoke("text")
+          .should("not.be.empty")
+          .then((destination) => {
+            cy.log("Destination: " + destination);
+
+
+          });
+      } else {
+        cy.log('Fare option is not present. Skipping this step.');
+      }
     });
-  } else {
-    cy.log('Fare option is not present. Skipping this step.');
-  }
-});
 
 
     cy.log(`----- Completed Validation for Flight Card #${i + 1} -----`);
@@ -1876,39 +1758,39 @@ Then("I need to validate Refundable Option", () => {
       // Ensure the button is visible and then click
       cy.contains("Reset All Filters").should('be.visible').click({ force: true });
       cy.log('Reset All Filters button clicked.');
-    } else{
-  
-   
-  
-    cy.wait(2000); // Wait for UI update
-  
-    cy.get(".empireFlight_listing-footer").each(($card, index) => {
-      cy.wrap($card)
-        .find(".empireFlight_refund-text")
-        .invoke("text")
-        .then((text) => {
-          const cleanedText = text.replace(/\u00A0/g, "").trim(); // Remove non-breaking spaces
-          cy.log(`Extracted refund text at index ${index}: "${cleanedText}"`);
-  
-          // Soft assertion to compare text
-          cy.softAssert(() => {
-            expect(cleanedText).to.equal(refundFilter);
-          }, `Assertion failed at index ${index}: Expected "${refundFilter}", but found "${cleanedText}"`);
-        });
-    });
-  } 
+    } else {
+
+
+
+      cy.wait(2000); // Wait for UI update
+
+      cy.get(".empireFlight_listing-footer").each(($card, index) => {
+        cy.wrap($card)
+          .find(".empireFlight_refund-text")
+          .invoke("text")
+          .then((text) => {
+            const cleanedText = text.replace(/\u00A0/g, "").trim(); // Remove non-breaking spaces
+            cy.log(`Extracted refund text at index ${index}: "${cleanedText}"`);
+
+            // Soft assertion to compare text
+            cy.softAssert(() => {
+              expect(cleanedText).to.equal(refundFilter);
+            }, `Assertion failed at index ${index}: Expected "${refundFilter}", but found "${cleanedText}"`);
+          });
+      });
+    }
   }).then(() => {
     // Ensure all soft assertions are logged at the end
     cy.softAssertAll();
   });
-  
+
 });
 
 Then("I need to Validate Airlines", () => {
   cy.get("#dropdownAirlines").should("be.visible").click();
 
   const airline = bookingData[Cypress.env("dataIndex")]["Airlines"];
-  
+
   if (airline) { // Check if airline is defined and not null/undefined
     cy.get(".dropdown-menu.show")
       .contains(airline) // Ensure airline is a string, number, or regex
@@ -1916,7 +1798,7 @@ Then("I need to Validate Airlines", () => {
   } else {
     cy.log("Airline is not defined, skipping the step.");
   }
-  
+
   cy.get('body').then(($body) => {
     // Check if the "Reset All Filters" button exists
     if ($body.find("button:contains('Reset All Filters')").length > 0) {
@@ -1926,7 +1808,7 @@ Then("I need to Validate Airlines", () => {
     } else {
       cy.wait(2000);
       const selectedAirlines = bookingData[Cypress.env("dataIndex")]["Airlines"];
-      
+
       // Only proceed if selectedAirlines is defined
       if (selectedAirlines) {
         cy.get(".empireFlight_cardbox").each(($card) => {
@@ -2223,23 +2105,23 @@ Then("I need to validate flight card roundtrip", () => {
 
     // Optional LCC Wrapper check
 
-     cy.get('body').then(($body) => {
-        if ($body.find(".LCC_Wrapper.ng-star-inserted").length > 0) {
-     
-          cy.get('@flightCard').find('.LCC_Wrapper.ng-star-inserted').then(($lcc) => {
-            if ($lcc.length > 0) {
-              cy.wrap($lcc).invoke('text').should('not.be.empty').then((text) => {
-                cy.log('LCC: ' + text);
-              });
-            }
-          });
-        
-        } else {
-          cy.log('LCC Wrapper check is not present. Skipping this step.');
-        }
-      });
+    cy.get('body').then(($body) => {
+      if ($body.find(".LCC_Wrapper.ng-star-inserted").length > 0) {
 
-  
+        cy.get('@flightCard').find('.LCC_Wrapper.ng-star-inserted').then(($lcc) => {
+          if ($lcc.length > 0) {
+            cy.wrap($lcc).invoke('text').should('not.be.empty').then((text) => {
+              cy.log('LCC: ' + text);
+            });
+          }
+        });
+
+      } else {
+        cy.log('LCC Wrapper check is not present. Skipping this step.');
+      }
+    });
+
+
 
     // Validate flight start time
     cy.get("@flightCard")
@@ -2320,16 +2202,16 @@ Then("I need to validate flight card roundtrip", () => {
     // Validate fare option
     cy.get('body').then(($body) => {
       if ($body.find(".FareTypeBox.ng-star-inserted").length > 0) {
-      
+
 
         cy.get("@flightCard")
-      .find(".FareTypeBox.ng-star-inserted")
-      .invoke("text")
-      .should("not.be.empty")
-      .then((fareOption) => {
-        cy.log("Fare Option: " + fareOption);
-      });
-      
+          .find(".FareTypeBox.ng-star-inserted")
+          .invoke("text")
+          .should("not.be.empty")
+          .then((fareOption) => {
+            cy.log("Fare Option: " + fareOption);
+          });
+
       } else {
         cy.log('fare option is not present. Skipping this step.');
       }
@@ -2337,7 +2219,7 @@ Then("I need to validate flight card roundtrip", () => {
 
 
 
- 
+
 
     cy.log(`----- Completed Validation for Flight Card #${i + 1} -----`);
   }
@@ -2403,8 +2285,8 @@ Then("I need to validate the time roundtrip", () => {
     .trigger("mousedown", { which: 1, force: true })
     .click({ force: true }); // Click to simulate slider movement
 
-  
-  cy.wait(500); 
+
+  cy.wait(500);
 
   cy.get('body').then(($body) => {
     // Check if the "Reset All Filters" button exists
@@ -2415,30 +2297,30 @@ Then("I need to validate the time roundtrip", () => {
     } else {
 
 
-  // Capture the updated flight time
-  cy.get(".empireFlight_FlightTime")
-    .eq(2)
-    .invoke("text")
-    .as("updatedFlightTime"); // Store the updated flight time
+      // Capture the updated flight time
+      cy.get(".empireFlight_FlightTime")
+        .eq(2)
+        .invoke("text")
+        .as("updatedFlightTime"); // Store the updated flight time
 
-  // Compare the initial and updated flight times
-  cy.get("@initialFlightTime").then((initialTime) => {
-    cy.get("@updatedFlightTime").then((updatedTime) => {
-      // Log the initial and updated times for debugging
-      cy.log(`Initial Flight Time: ${initialTime}`);
-      cy.log(`Updated Flight Time: ${updatedTime}`);
+      // Compare the initial and updated flight times
+      cy.get("@initialFlightTime").then((initialTime) => {
+        cy.get("@updatedFlightTime").then((updatedTime) => {
+          // Log the initial and updated times for debugging
+          cy.log(`Initial Flight Time: ${initialTime}`);
+          cy.log(`Updated Flight Time: ${updatedTime}`);
 
-      // Validate that the flight time has changed (assuming the time is dynamic)
-      expect(initialTime).to.equal(updatedTime); // Ensure the time has changed
+          // Validate that the flight time has changed (assuming the time is dynamic)
+          expect(initialTime).to.equal(updatedTime); // Ensure the time has changed
 
-      // Validate the updated time format (it should be in the "HH:MM" format)
-      expect(updatedTime).to.match(/^\d{2}:\d{2}$/); // Matches "10:45"
-    });
+          // Validate the updated time format (it should be in the "HH:MM" format)
+          expect(updatedTime).to.match(/^\d{2}:\d{2}$/); // Matches "10:45"
+        });
+      });
+
+
+    }
   });
- 
- 
-}
-});
 });
 
 Then("I need to validate the price roundtrip", () => {
@@ -2448,10 +2330,10 @@ Then("I need to validate the price roundtrip", () => {
   cy.get(".empireFlight_amountWrapper > h2") // Adjust selector for the price elements on the flight cards
     .invoke("text")
     .as("initialPrices");
-  
+
   cy.get("@initialPrices").then((initialPrices) => {
     cy.log(`Initial Prices: ${initialPrices}`);
-  
+
     // Adjust the left (minimum) price slider
     cy.get("span.ngx-slider-pointer")
       .eq(4)
@@ -2461,7 +2343,7 @@ Then("I need to validate the price roundtrip", () => {
       .click({ force: true })
       .trigger("mousemove", { clientX: 300, force: true }) // Adjust the clientX value as needed to set the price
       .trigger("mouseup", { force: true });
-  
+
     // Adjust the right (maximum) price slider
     cy.get("span.ngx-slider-pointer")
       .eq(5)
@@ -2470,10 +2352,10 @@ Then("I need to validate the price roundtrip", () => {
       .click({ force: true })
       .trigger("mousemove", { clientX: 700, force: true }) // Adjust the clientX value as needed to set the price
       .trigger("mouseup", { force: true });
-  
+
     // Wait for UI to update after slider adjustment
     cy.wait(500);
-  
+
     cy.get("body").then(($body) => {
       // Check if the "Reset All Filters" button exists
       if ($body.find("button:contains('Reset All Filters')").length > 0) {
@@ -2484,10 +2366,10 @@ Then("I need to validate the price roundtrip", () => {
         cy.get(".empireFlight_amountWrapper > h2") // Adjust selector for the price elements on the flight cards
           .invoke("text")
           .as("updatedPrices");
-  
+
         cy.get("@updatedPrices").then((updatedPrices) => {
           cy.log(`Updated Prices: ${updatedPrices}`);
-  
+
           // Convert prices into an array for comparison (assuming a comma-separated format)
           const initialPriceArray = initialPrices
             .split(",")
@@ -2495,7 +2377,7 @@ Then("I need to validate the price roundtrip", () => {
           const updatedPriceArray = updatedPrices
             .split(",")
             .map((price) => parseFloat(price.replace(/AED\s*/, "").replace(",", "")));
-  
+
           // Check that at least one price has changed
           const hasChanged = initialPriceArray.some(
             (price, index) => price !== updatedPriceArray[index]
@@ -2591,28 +2473,28 @@ Then("I need to validate Duration roundtrip", () => {
     } else {
 
 
-  cy.get(".empireFlight_time.include")
-    .first()
-    .invoke("text")
-    .as("updatedFlightDuration");
+      cy.get(".empireFlight_time.include")
+        .first()
+        .invoke("text")
+        .as("updatedFlightDuration");
 
-  cy.get(".empireFlight_time")
-    .should("be.visible")
-    .first()
-    .invoke("text")
-    .as("initialFlightDuration");
+      cy.get(".empireFlight_time")
+        .should("be.visible")
+        .first()
+        .invoke("text")
+        .as("initialFlightDuration");
 
-  // Compare the initial and updated flight times
-  cy.get("@initialFlightDuration").then((initialFlightDuration) => {
-    cy.get("@updatedFlightDuration").then((updatedFlightDuration) => {
-      // Log the initial and updated times for debugging
-      // cy.log(Initial Flight Time: ${initialTime});
-      // cy.log(Updated Flight Time: ${updatedTime});
+      // Compare the initial and updated flight times
+      cy.get("@initialFlightDuration").then((initialFlightDuration) => {
+        cy.get("@updatedFlightDuration").then((updatedFlightDuration) => {
+          // Log the initial and updated times for debugging
+          // cy.log(Initial Flight Time: ${initialTime});
+          // cy.log(Updated Flight Time: ${updatedTime});
 
-      expect(initialFlightDuration).to.equal(updatedFlightDuration); // Ensure the time has changed
-    });
-  });
-  // Use Cypress.$() to check for the presence of the element
+          expect(initialFlightDuration).to.equal(updatedFlightDuration); // Ensure the time has changed
+        });
+      });
+      // Use Cypress.$() to check for the presence of the element
     }
   });
 });
@@ -2929,69 +2811,69 @@ Then("I need to validate fare option multicity", () => {
 Then("I need to validate the stop roundtrip", () => {
   const selectedStopType = bookingData[Cypress.env("dataIndex")]["Stop"];
 
-// Check and click "Reset All Filters" before proceeding
-cy.get('body').then(($body) => {
-  if ($body.find("button:contains('Reset All Filters')").length > 0) {
-    cy.contains("Reset All Filters").should('be.visible').click({ force: true });
-    cy.log('Reset All Filters button clicked.');
-  } else {
-    cy.log("Reset All Filters button not found, proceeding.");
-  }
-});
-
-if (selectedStopType) {
-  // Open the stop type dropdown
-  cy.get("#dropdownStops")
-    .should("be.visible") // Ensure the dropdown is visible before clicking
-    .click();
-
-  // Apply the selected filter
-  cy.get(".empireFlight_filterlist-dropdown-items")
-    .contains(selectedStopType)
-    .click({ force: true });
-
-  cy.wait(2000); // Wait for flight results to update
-
-  // Check if any flight cards are displayed
+  // Check and click "Reset All Filters" before proceeding
   cy.get('body').then(($body) => {
-    if ($body.find(".empireFlight_listing-body.ng-star-inserted").length === 0) {
-      // No flights found, reset filters
-      cy.log(`No flights found for ${selectedStopType}, resetting filters.`);
+    if ($body.find("button:contains('Reset All Filters')").length > 0) {
       cy.contains("Reset All Filters").should('be.visible').click({ force: true });
+      cy.log('Reset All Filters button clicked.');
     } else {
-      // Validate flight results based on the selected stop type
-      cy.get(".empireFlight_listing-body.ng-star-inserted").each(($card) => {
-        if (selectedStopType === "Non Stop") {
-          cy.wrap($card)
-            .find(".empireFlight_stop")
-            .invoke("text")
-            .then((text) => {
-              expect(text.trim()).to.eq("Direct"); // Assert that the flight direction is "Direct"
-              cy.log("Non Stop flight validated: " + text.trim());
-            });
-        } else if (selectedStopType === "1 Stop") {
-          cy.wrap($card)
-            .find(".empireFlight_stop")
-            .invoke("text")
-            .then((text) => {
-              expect(text.trim()).to.include("1 Stop via"); // Assert that the flight contains "1 Stop via"
-              cy.log("1 Stop flight validated: " + text.trim());
-            });
-        } else if (selectedStopType === "2 Stops") {
-          cy.wrap($card)
-            .find(".empireFlight_stop")
-            .invoke("text")
-            .then((text) => {
-              expect(text.trim()).to.include("2 Stop via"); // Assert that the flight contains "2 Stop via"
-              cy.log("2 Stops flight validated: " + text.trim());
-            });
-        }
-      });
+      cy.log("Reset All Filters button not found, proceeding.");
     }
   });
-} else {
-  cy.log("No stop type selected, skipping validation.");
-}
+
+  if (selectedStopType) {
+    // Open the stop type dropdown
+    cy.get("#dropdownStops")
+      .should("be.visible") // Ensure the dropdown is visible before clicking
+      .click();
+
+    // Apply the selected filter
+    cy.get(".empireFlight_filterlist-dropdown-items")
+      .contains(selectedStopType)
+      .click({ force: true });
+
+    cy.wait(2000); // Wait for flight results to update
+
+    // Check if any flight cards are displayed
+    cy.get('body').then(($body) => {
+      if ($body.find(".empireFlight_listing-body.ng-star-inserted").length === 0) {
+        // No flights found, reset filters
+        cy.log(`No flights found for ${selectedStopType}, resetting filters.`);
+        cy.contains("Reset All Filters").should('be.visible').click({ force: true });
+      } else {
+        // Validate flight results based on the selected stop type
+        cy.get(".empireFlight_listing-body.ng-star-inserted").each(($card) => {
+          if (selectedStopType === "Non Stop") {
+            cy.wrap($card)
+              .find(".empireFlight_stop")
+              .invoke("text")
+              .then((text) => {
+                expect(text.trim()).to.eq("Direct"); // Assert that the flight direction is "Direct"
+                cy.log("Non Stop flight validated: " + text.trim());
+              });
+          } else if (selectedStopType === "1 Stop") {
+            cy.wrap($card)
+              .find(".empireFlight_stop")
+              .invoke("text")
+              .then((text) => {
+                expect(text.trim()).to.include("1 Stop via"); // Assert that the flight contains "1 Stop via"
+                cy.log("1 Stop flight validated: " + text.trim());
+              });
+          } else if (selectedStopType === "2 Stops") {
+            cy.wrap($card)
+              .find(".empireFlight_stop")
+              .invoke("text")
+              .then((text) => {
+                expect(text.trim()).to.include("2 Stop via"); // Assert that the flight contains "2 Stop via"
+                cy.log("2 Stops flight validated: " + text.trim());
+              });
+          }
+        });
+      }
+    });
+  } else {
+    cy.log("No stop type selected, skipping validation.");
+  }
 });
 Then("I need to Validate airlines roundtrip", () => {
   cy.get("#dropdownAirlines").should("be.visible").click();
@@ -2999,16 +2881,16 @@ Then("I need to Validate airlines roundtrip", () => {
   cy.get("#dropdownAirlines").should("be.visible").click();
 
   cy.get('body').then(($body) => {
-  
+
     // Check if the "Reset All Filters" button exists
     if ($body.find("button:contains('Reset All Filters')").length > 0) {
       // Ensure the button is visible and then click
       cy.contains("Reset All Filters").should('be.visible').click({ force: true });
       cy.log('Reset All Filters button clicked.');
     } else {
-      
+
       const airline = bookingData[Cypress.env("dataIndex")]["Airlines"];
-      
+
       if (airline) { // Ensure airline is defined before proceeding
         cy.get(".dropdown-menu.show")
           .contains(airline)
@@ -3016,10 +2898,10 @@ Then("I need to Validate airlines roundtrip", () => {
       } else {
         cy.log("Airline is not defined, skipping the step.");
       }
-  
+
       cy.wait(2000);
       const selectedAirlines = bookingData[Cypress.env("dataIndex")]["Airlines"];
-      
+
       if (selectedAirlines) {
         cy.get(".empireFlight_listing-body.ng-star-inserted").each(($card) => {
           cy.wrap($card)
@@ -3036,7 +2918,7 @@ Then("I need to Validate airlines roundtrip", () => {
       }
     }
   });
-  
+
 });
 Then("I need to validate flight Summary", () => {
   // Set the limit for the number of flight cards to iterate over
@@ -3173,7 +3055,7 @@ const travelerPagePaymentContinue = () => {
     if ($body.find("Continue to Add-Ons").length > 0) {
 
       cy.contains("Continue to Add-Ons").click(), { timeout: 20000 };
-      
+
     } else {
       cy.log('Add-ons not available');
     }
@@ -3187,7 +3069,7 @@ const travelerPagePaymentContinue = () => {
     if ($body.find(".empireF_ancillaryWrap").length > 0) {
 
       cy.get(".empireF_ancillaryWrap").contains("Continue").click({ force: true });
-      
+
     } else {
       cy.log('Add-ons not available');
     }
@@ -3203,7 +3085,7 @@ Then("I click on payment continue", () => {
 
   travelerPagePaymentContinue();
 
- 
+
 });
 
 Then("I need to validate flight Summary payment page", () => {
@@ -3347,7 +3229,7 @@ Then("I need to validate flight Summary payment page", () => {
 });
 
 Then("I click on the fare breakup", () => {
- 
+
   cy.get('span.mdc-tab__content').contains('Fare Breakup')
     .click({ force: true });
 });
@@ -3413,9 +3295,9 @@ Then("I need to validate fare breakup", () => {
 });
 
 Then("I click on the baggage", () => {
-  cy.get('span.mdc-tab__content').contains( 'Baggage ')
-  .should('be.visible')
-  .click({ force: true });
+  cy.get('span.mdc-tab__content').contains('Baggage ')
+    .should('be.visible')
+    .click({ force: true });
 
 
 });
@@ -3646,30 +3528,30 @@ Then("I have the promo code", () => {
     if ($body.find(".empireF_promoInputForm > input").length > 0) {
       cy.log('FormofIdentityNumber is present, filling in the details.');
       let originalTotal;
-  
+
       cy.get('.empireF_amountWrapper > h4') // Get the original total amount
         .invoke('text')
         .then((text) => {
           originalTotal = parseFloat(text.replace(/[^\d.-]/g, ''));
-  
+
           // Ensure the promo code is defined before typing
           const promoCode = bookingData[Cypress.env("dataIndex")]["Promo Code"];
           if (!promoCode) {
             cy.log("Promo Code is undefined, skipping typing.");
             return; // Exit if promo code is undefined
           }
-  
+
           cy.get(".empireF_promoInputForm > input")
             .should('be.visible')
             .click()
             .type(promoCode);
-  
+
           cy.contains("Apply")
             .should('be.visible')
             .click();
-  
+
           cy.wait(5000);
-  
+
           cy.get('.empireF_amountWrapper > h4') // Validate new total
             .invoke('text')
             .then((newText) => {
@@ -3678,19 +3560,19 @@ Then("I have the promo code", () => {
               expect(newTotal).to.not.equal(0);
             });
         });
-  
+
     } else {
       cy.log('Promo Code is not present. Skipping this step.');
     }
   });
-  
+
 });
 
 
 Then("I click on the flight ltinerary", () => {
   cy.get('span.mdc-tab__content').contains('Flight Itinerary')
-  .should('be.visible')
-  .click({ force: true });
+    .should('be.visible')
+    .click({ force: true });
 });
 
 
@@ -3712,110 +3594,110 @@ Then("I need to validate flight ltinerary", () => {
 
       // Validate flight start time
       cy.get("@flightCard")
-      .find(".empireFlight_ItAirflight")
-      .invoke("text")
-      .should("not.be.empty")
-      .then((flightName) => {
-        cy.log("Flight Name: " + flightName);
-      });
+        .find(".empireFlight_ItAirflight")
+        .invoke("text")
+        .should("not.be.empty")
+        .then((flightName) => {
+          cy.log("Flight Name: " + flightName);
+        });
 
-    // Optional LCC Wrapper check
-    // cy.get('@flightCard').find('.LCC_Wrapper.ng-star-inserted').then(($lcc) => {
-    //   if ($lcc.length > 0) {
-    //     cy.wrap($lcc).invoke('text').should('not.be.empty').then((text) => {
-    //       cy.log('LCC: ' + text);
-    //     });
-    //   }
-    // });
+      // Optional LCC Wrapper check
+      // cy.get('@flightCard').find('.LCC_Wrapper.ng-star-inserted').then(($lcc) => {
+      //   if ($lcc.length > 0) {
+      //     cy.wrap($lcc).invoke('text').should('not.be.empty').then((text) => {
+      //       cy.log('LCC: ' + text);
+      //     });
+      //   }
+      // });
 
-    // Validate flight start time
-    cy.get("@flightCard")
-      .find(".empireFlight_ItFlightFromDet > h4 > span")
-      .invoke("text")
-      .should("not.be.empty")
-      .then((startTime) => {
-        cy.log("Flight Start Time: " + startTime);
-      });
+      // Validate flight start time
+      cy.get("@flightCard")
+        .find(".empireFlight_ItFlightFromDet > h4 > span")
+        .invoke("text")
+        .should("not.be.empty")
+        .then((startTime) => {
+          cy.log("Flight Start Time: " + startTime);
+        });
 
-    // Validate from and to locations
-    cy.get("@flightCard")
-      .find(".empireF_ItineraryTabTitle")
-      .invoke("text")
-      .should("not.be.empty")
-      .then((route) => {
-        cy.log("From and To: " + route);
-      });
+      // Validate from and to locations
+      cy.get("@flightCard")
+        .find(".empireF_ItineraryTabTitle")
+        .invoke("text")
+        .should("not.be.empty")
+        .then((route) => {
+          cy.log("From and To: " + route);
+        });
 
-   
 
-    // Optional stop details
-    // cy.get('@flightCard').find('.empireFlight_stopvia.empireF_directionTxt.ng-star-inserted').then(($stop) => {
-    //   if ($stop.length > 0) {
-    //     cy.wrap($stop).invoke('text').should('not.be.empty').then((stopText) => {
-    //       cy.log('Stop: ' + stopText);
-    //     });
-    //   }
-    // });
 
-    // Validate flight code
-    cy.get("@flightCard")
-      .find(".empireFlight_ItFlightFromDet > h4 ")
-      .invoke("text")
-      .should("not.be.empty")
-      .then((code) => {
-        cy.log("Source: " + code);
-      });
+      // Optional stop details
+      // cy.get('@flightCard').find('.empireFlight_stopvia.empireF_directionTxt.ng-star-inserted').then(($stop) => {
+      //   if ($stop.length > 0) {
+      //     cy.wrap($stop).invoke('text').should('not.be.empty').then((stopText) => {
+      //       cy.log('Stop: ' + stopText);
+      //     });
+      //   }
+      // });
 
-    // Validate time
-    cy.get("@flightCard")
-      .find(".empireFlight_ItFlighTime")
-      .invoke("text")
-      .should("not.be.empty")
-      .then((time) => {
-        cy.log("Time: " + time);
-      });
+      // Validate flight code
+      cy.get("@flightCard")
+        .find(".empireFlight_ItFlightFromDet > h4 ")
+        .invoke("text")
+        .should("not.be.empty")
+        .then((code) => {
+          cy.log("Source: " + code);
+        });
 
-    // Validate baggage details
-  
+      // Validate time
+      cy.get("@flightCard")
+        .find(".empireFlight_ItFlighTime")
+        .invoke("text")
+        .should("not.be.empty")
+        .then((time) => {
+          cy.log("Time: " + time);
+        });
 
-    // Validate passenger class
-    cy.get("@flightCard")
-      .find(".empireFlight_RbdContent")
-      .invoke("text")
-      .should("not.be.empty")
-      .then((classType) => {
-        cy.log("Passenger Class: " + classType);
-      });
+      // Validate baggage details
 
-    // Optional seat availability
-    // cy.get("@flightCard")
-    //   .find(".empireFlight_seatsleft.ng-star-inserted")
-    //   .then(($seats) => {
-    //     if ($seats.length > 0) {
-    //       cy.wrap($seats)
-    //         .invoke("text")
-    //         .should("not.be.empty")
-    //         .then((seats) => {
-    //           cy.log("Available seat: " + seats);
-    //         });
-    //     }
-    //   });
 
-   
+      // Validate passenger class
+      cy.get("@flightCard")
+        .find(".empireFlight_RbdContent")
+        .invoke("text")
+        .should("not.be.empty")
+        .then((classType) => {
+          cy.log("Passenger Class: " + classType);
+        });
 
-   
-   
-    // Validate destination code
-    cy.get("@flightCard")
-      .find(".empireFlight_ItTime")
-      .invoke("text")
-      .should("not.be.empty")
-      .then((destination) => {
-        cy.log("Destination: " + destination);
-      });
+      // Optional seat availability
+      // cy.get("@flightCard")
+      //   .find(".empireFlight_seatsleft.ng-star-inserted")
+      //   .then(($seats) => {
+      //     if ($seats.length > 0) {
+      //       cy.wrap($seats)
+      //         .invoke("text")
+      //         .should("not.be.empty")
+      //         .then((seats) => {
+      //           cy.log("Available seat: " + seats);
+      //         });
+      //     }
+      //   });
 
-    // Validate fare option
-   
+
+
+
+
+      // Validate destination code
+      cy.get("@flightCard")
+        .find(".empireFlight_ItTime")
+        .invoke("text")
+        .should("not.be.empty")
+        .then((destination) => {
+          cy.log("Destination: " + destination);
+        });
+
+      // Validate fare option
+
 
       cy.log(`----- Completed Validation for Flight Card #${i + 1} -----`);
     }
@@ -3827,27 +3709,27 @@ Then("I need to validate flight ltinerary", () => {
 Then("I need to validate flight details", () => {
 
   cy.wait(10000);
-  
+
   cy.get('body').then(($body) => {
     if ($body.find(".common_popupFooter > .btn").length > 0) { // Check if the element exists
-    cy.get('.common_popupFooter > .btn')
+      cy.get('.common_popupFooter > .btn')
         .should('be.visible') // Ensure the element is visible
         .click(); // Click the element
     } else {
       cy.log('Popup does not appear. Skipping this step.');
     }
   });
-  
+
 
   cy.get(".fareOptionCardMobile > .empireFlight_fareOptCardsHead > .FareoptionselectedFlight").then(($flightCards) => {
     const totalCards = $flightCards.length; // Total available flight cards
     cy.log(`Total flight cards available: ${totalCards}`);
-  
+
     cy.wrap($flightCards).each(($flightCard, index) => {
       cy.wrap($flightCard).as("flightCard");
-  
+
       cy.log(`----- Validating Flight Card #${index + 1} -----`);
-  
+
       // Validate airline logo visibility
       cy.get("@flightCard")
         .find('img[alt="Airline Logo"]')
@@ -3857,7 +3739,7 @@ Then("I need to validate flight details", () => {
             expect($flightCard.find('img[alt="Airline Logo"]').length).to.be.greaterThan(0);
           }, `Assertion failed at index ${index}: Airline logo is not visible`);
         });
-  
+
       // Validate flight name
       cy.get("@flightCard")
         .find(".empireFlight_FlightNames")
@@ -3869,7 +3751,7 @@ Then("I need to validate flight details", () => {
             expect(cleanedFlightName).not.to.be.empty;
           }, `Assertion failed at index ${index}: Flight name is empty`);
         });
-  
+
       // Validate flight start time
       cy.get("@flightCard")
         .find(".empireFlight_FlightTime")
@@ -3881,7 +3763,7 @@ Then("I need to validate flight details", () => {
             expect(cleanedStartTime).not.to.be.empty;
           }, `Assertion failed at index ${index}: Flight start time is empty`);
         });
-  
+
       // Validate flight code
       cy.get("@flightCard")
         .find(".empireFlight_FlightCode")
@@ -3893,7 +3775,7 @@ Then("I need to validate flight details", () => {
             expect(cleanedCode).not.to.be.empty;
           }, `Assertion failed at index ${index}: Flight code is empty`);
         });
-  
+
       // Validate time
       cy.get("@flightCard")
         .find(".empireFlight_time.include")
@@ -3905,10 +3787,10 @@ Then("I need to validate flight details", () => {
             expect(cleanedTime).not.to.be.empty;
           }, `Assertion failed at index ${index}: Time is empty`);
         });
-  
+
       // Validate baggage details (if present)
-    
-  
+
+
       // Validate destination code
       cy.get("@flightCard")
         .find(".empireFlight_FlightCode.empireFlight_DepartCode")
@@ -3920,7 +3802,7 @@ Then("I need to validate flight details", () => {
             expect(cleanedDestination).not.to.be.empty;
           }, `Assertion failed at index ${index}: Destination code is empty`);
         });
-  
+
       // Validate fare option
       cy.get("@flightCard")
         .find(".FareTypeBox.ng-star-inserted")
@@ -3932,67 +3814,83 @@ Then("I need to validate flight details", () => {
             expect(cleanedFareOption).not.to.be.empty;
           }, `Assertion failed at index ${index}: Fare option is empty`);
         });
-  
+
       cy.log(`----- Completed Validation for Flight Card #${index + 1} -----`);
     });
   }).then(() => {
     // Ensure all soft assertions are logged at the end
     cy.softAssertAll();
   });
-  
+
 })
 
 
 Then("I need to validate fare option card", () => {
   cy.get(".empireF_multiCardGrid > div")
-  .filter(":visible") // Filter only visible elements
-  .should("have.length.gt", 0) // Ensure at least one visible element exists
-  .then(($options) => {
-    const visibleOptions = $options.length;
-    cy.log(`Visible options count: ${visibleOptions}`);
+    .filter(":visible") // Filter only visible elements
+    .should("have.length.gt", 0) // Ensure at least one visible element exists
+    .then(($options) => {
+      const visibleOptions = $options.length;
+      cy.log(`Visible options count: ${visibleOptions}`);
 
-    if (visibleOptions > 0) {
-      const randomIndex = Math.floor(Math.random() * visibleOptions);
-      cy.log(`Random Index: ${randomIndex}`);
+      if (visibleOptions > 0) {
+        const randomIndex = Math.floor(Math.random() * visibleOptions);
+        cy.log(`Random Index: ${randomIndex}`);
 
-      // Debug: Log the text or attributes of the selected element
-      const selectedOption = $options.eq(randomIndex);
-      cy.log(`Selected Option Text: ${selectedOption.text().trim()}`);
+        // Debug: Log the text or attributes of the selected element
+        const selectedOption = $options.eq(randomIndex);
+        cy.log(`Selected Option Text: ${selectedOption.text().trim()}`);
 
-      // Click the selected option
-      cy.wrap(selectedOption).click({ force: true });
-      cy.log(`Selected Flight Option #${randomIndex + 1}`);
-    } else {
-      cy.log("No visible fare option cards available. Skipping this step.");
-    }
-  });
-  });
-
-  
-
-  
-
-
-
-Then("I need to click search again flight is not avaliable add the traveller details for {string}", (passengerType) => {
-    
-  cy.wait(15000);
-    cy.get('body').then(($body) => {
-      if ($body.find('.common_popupFooter > .btn').length > 0) {
-        cy.log('Search Again flight is present, clicking it and continuing.');
-    
-        cy.get('.common_popupFooter > .btn')
-          .should('be.visible')
-          .click({ force: true });
-    
-        flightDetails();
-        clickBookNow();
-         fillTravellerDetails(passengerType);
-        travelerPagePaymentContinue();
-        paymentContinue();
+        // Click the selected option
+        cy.wrap(selectedOption).click({ force: true });
+        cy.log(`Selected Flight Option #${randomIndex + 1}`);
       } else {
-        cy.log('Search Again flight is not present. Skipping this step.');
+        cy.log("No visible fare option cards available. Skipping this step.");
       }
     });
-    
+});
+
+
+
+
+
+
+
+Then("I need to click search again flight is not avaliable", () => {
+
+  cy.wait(10000);
+
+  // cy.get('body').then(($body) => {
+  //   if ($body.find('.empireFlight-PaymentPriceBtnWrapper').length > 0) {
+  //     cy.log('Search Again flight is present, clicking it and continuing.');
+
+  //     cy.get('.btn-payment > .empireFlight-PaymentPriceBtnWrapper')
+  //       .should('be.visible')
+  //       .click({ force: true });
+
+
+  //   } else {
+  //     cy.log('Search Again flight is not present. Skipping this step.');
+  //   }
+  // });
+
+
+  cy.get('body').then(($body) => {
+    if ($body.find('.common_popupFooter > .btn').length > 0) {
+      cy.log('Search Again flight is present, clicking it and continuing.');
+
+      cy.get('.common_popupFooter > .btn')
+        .should('be.visible')
+        .click({ force: true });
+
+      flightDetails();
+      clickBookNow();
+     
+      travelerPagePaymentContinue();
+      paymentContinue();
+    } else {
+      cy.log('Search Again flight is not present. Skipping this step.');
+    }
   });
+
+});

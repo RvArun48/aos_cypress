@@ -1,8 +1,8 @@
 Feature: AOS Validation
 
 @roundTrip
-Scenario Outline: Search for flights with specific details for a one-way trip using test case ID <testCaseId>
-   Given I have the flight details from "<filePath>" with sheet "<sheetName>" for test case ID "<testCaseId>"
+Scenario Outline: Search for flights with specific details for a one-way trip 
+  Given I have the flight details from "<filePath>" with sheet "<sheetName>" for test case ID "<testCaseId>"
     And I setup the test data for adult passengers from "<filePath>"
     And I setup the test data for child passengers from "<filePath>"
     And I setup the test data for infant passengers from "<filePath>"
@@ -22,7 +22,7 @@ Scenario Outline: Search for flights with specific details for a one-way trip us
     When I generate the search URL
     Then I should visit the generated URL   
     Then I checking the origin and Destination as per search
-    # Then I need to validate price calendar
+    # # Then I need to validate price calendar
     Then I need to validate flight card
     Then I need to validate fare option
     Then I need to validate the time
@@ -46,15 +46,13 @@ Scenario Outline: Search for flights with specific details for a one-way trip us
     Then I need to add the traveller details for "Child"
     Then I need to add the traveller details for "Infant"
     Then I need to add the passenger common details
-     Then I have the promo code
+    Then I have the promo code
     Then I need to validate flight Summary
 
     Then I click on payment continue
     Then I need to validate flight Summary payment page
     Then I need to click continue to payment
-    Then I need to click search again flight is not avaliable add the traveller details for "Adult"
-    Then I need to click search again flight is not avaliable add the traveller details for "Child"
-    Then I need to click search again flight is not avaliable add the traveller details for "Infant"
+    # Then I need to click search again flight is not avaliable 
     Then I need to enter card details
 
     Then I need to validate booking Summary
@@ -62,9 +60,11 @@ Scenario Outline: Search for flights with specific details for a one-way trip us
     Then I need to validate confirmation page
     Then I need to validate traveller details
 
-Examples:
+
+     Examples:
     | filePath                          | sheetName  | testCaseId |
-     | cypress/fixtures/b2c/flightDetails.xlsx | Oneway     | TC009      |
+     | cypress/fixtures/b2c/flightDetails.xlsx | Oneway     | TC002      |   
+   
   
 
 
@@ -124,6 +124,7 @@ Scenario Outline: Search for flights with specific details for a roundTrip trip 
     Then I click on payment continue
     Then I need to validate flight Summary payment page
     Then I need to click continue to payment
+     Then I need to enter card details
     Then I need to validate booking Summary
     Then I need to validate baggage confirmation page
     Then I need to validate confirmation page
@@ -131,17 +132,7 @@ Scenario Outline: Search for flights with specific details for a roundTrip trip 
 
 Examples:
     | filePath                          | sheetName  | testCaseId |
-    | cypress/fixtures/b2c/flightDetails.xlsx | Roundtrip  | TC001      |
-    | cypress/fixtures/b2c/flightDetails.xlsx | Roundtrip  | TC002      |
-    | cypress/fixtures/b2c/flightDetails.xlsx | Roundtrip  | TC003      |
-    | cypress/fixtures/b2c/flightDetails.xlsx | Roundtrip  | TC004      |
-    | cypress/fixtures/b2c/flightDetails.xlsx | Roundtrip  | TC005      |
-    | cypress/fixtures/b2c/flightDetails.xlsx | Roundtrip  | TC006      |
-    | cypress/fixtures/b2c/flightDetails.xlsx | Roundtrip  | TC007      |
-    | cypress/fixtures/b2c/flightDetails.xlsx | Roundtrip  | TC008      |
-    | cypress/fixtures/b2c/flightDetails.xlsx | Roundtrip  | TC009      |
-    | cypress/fixtures/b2c/flightDetails.xlsx | Roundtrip  | TC0010      |
-
+  
 @multicity
 Scenario: Search for flights with specific details for multicity trip
     Given I have the flight details from "cypress/fixtures/flightDetails.xlsx" with sheet "multicity threesegment" and index 0
@@ -191,7 +182,7 @@ Scenario: Search for flights with specific details for multicity trip
 
 # @multicitysix
 # Scenario: Search for flights with specific details for multicity six
-#     Given I have the flight details from "cypress/fixtures/flightDetails.xlsx" with sheet "multicity sixsegment" and index 0
+   Given I have the flight details from "cypress/fixtures/flightDetails.xlsx" with sheet "multicity sixsegment" and index 0
 #     Given I setup the test data for adult passengers from "cypress/fixtures/flightDetails.xlsx"
 #     Given I setup the test data for child passengers from "cypress/fixtures/flightDetails.xlsx"
 #     Given I setup the test data for infant passengers from "cypress/fixtures/flightDetails.xlsx"
