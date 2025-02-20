@@ -11,10 +11,13 @@ const createEsbuildPlugin = require('@badeball/cypress-cucumber-preprocessor/esb
 module.exports = defineConfig({
   defaultCommandTimeout: 30000,
   env: {
+    
     url: "https://ngtest.amadeusonlinesuite.com/flight/search?",
    urlb2b: "https://proddemob2b.amadeusonlinesuite.com/"
   },
   e2e: {
+    
+  
     setupNodeEvents(on, config) {
       
       addCucumberPreprocessorPlugin(on, config);
@@ -22,6 +25,9 @@ module.exports = defineConfig({
         plugins: [createEsbuildPlugin(config)],
        
       }));
+     
+
+
       on('task', {
 
        
@@ -59,8 +65,8 @@ module.exports = defineConfig({
       });
 
       on('file:preprocessor', cucumber());
+  
       
-      // Task to parse Excel with a specified sheet and index
       on('task', {
 
         parseXlsxWithSheet({ filePath, sheetName }) {
@@ -100,7 +106,7 @@ module.exports = defineConfig({
 
       return config;
     },
-   
+    chromeWebSecurity: false,
     specPattern: "cypress/e2e/b2c/feature/**/*.feature",
     supportFile: 'cypress/support/index.js',
     reporterOptions: {
@@ -109,6 +115,7 @@ module.exports = defineConfig({
       html: true,
       json: true,
     },
+    
   },
 });
 

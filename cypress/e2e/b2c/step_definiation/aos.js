@@ -1,6 +1,8 @@
 import { Given } from "cypress-cucumber-preprocessor/steps";
 import "cypress-real-events/support";
 import 'cypress-soft-assertions';
+import 'cypress-wait-until';
+
 
 let bookingData,
   adultData,
@@ -23,6 +25,10 @@ const excelDateToString = (excelDate) => {
   return `${month}-${day}-${year}`;
   return `${month}-${day}-${year}`;
 };
+
+
+
+
 
 Given("I have the flight details from {string} with sheet {string} for test case ID {string}",
   (filePath, sheetName, testCaseId) => {
@@ -59,6 +65,7 @@ Given("I have the flight details from {string} with sheet {string} for test case
     );
   }
 );
+
 
 
 Given("I setup the test data for adult passengers from {string}",
@@ -717,9 +724,9 @@ const flightDetails = () => {
     .should("have.length.greaterThan", 0)
     .then(($flightDetails) => {
 
-      cy.log(`Found ${$flightDetails.length} flight details`);
+      cy.logMessage(`Found ${$flightDetails.length} flight details`);
       const randomIndex = Math.floor(Math.random() * $flightDetails.length);
-      cy.log(`Selected flight detail index: ${randomIndex}`);
+      cy.logMessage(`Selected flight detail index: ${randomIndex}`);
       cy.wrap($flightDetails[randomIndex]).click();
       cy.wait(1000);
     });
@@ -1001,6 +1008,7 @@ const paymentContinue = () => {
   });
 
   cy.contains(" Proceed to Pay ").click();
+  
 
 };
 
@@ -1011,7 +1019,7 @@ Then("I need to click continue to payment", () => {
 
 Then("I need to enter card details", () => {
 
-
+ 
  
   cy.origin("https://sbcheckout.payfort.com", () => {
     cy.log("Navigated to sbcheckout.payfort.com, filling in payment details.");
@@ -3061,14 +3069,13 @@ const travelerPagePaymentContinue = () => {
     }
   });
 
-
-  cy.contains("Continue to payment").click(), { timeout: 20000 };
+  cy.get('.eclipse').click(), { timeout: 20000 };
 
 
   cy.get('body').then(($body) => {
     if ($body.find(".empireF_ancillaryWrap").length > 0) {
 
-      cy.get(".empireF_ancillaryWrap").contains("Continue").click({ force: true });
+      cy.get(".empireF_ancPopupFooter > div").contains("Continue").click();
 
     } else {
       cy.log('Add-ons not available');
@@ -3858,39 +3865,70 @@ Then("I need to validate fare option card", () => {
 
 Then("I need to click search again flight is not avaliable", () => {
 
+
+
+
+
+
+
   cy.wait(10000);
-
-  // cy.get('body').then(($body) => {
-  //   if ($body.find('.empireFlight-PaymentPriceBtnWrapper').length > 0) {
-  //     cy.log('Search Again flight is present, clicking it and continuing.');
-
-  //     cy.get('.btn-payment > .empireFlight-PaymentPriceBtnWrapper')
-  //       .should('be.visible')
-  //       .click({ force: true });
+ 
 
 
-  //   } else {
-  //     cy.log('Search Again flight is not present. Skipping this step.');
-  //   }
-  // });
 
+ 
+cy.get('body').then(($body) => {
+  if ($body.find('.common_popupFooter > .btn').length > 0) {
+    cy.get('.common_popupFooter > .btn', { timeout: 10000 })
+      .should('be.visible')
+      .click();
+    // Call the required functions after clicking the button
+    flightDetails();
+    clickBookNow();
+    travelerPagePaymentContinue();
+    paymentContinue();
+  } else {
+    cy.log('Skipping click, element not found.');
+  }
+});
+
+
+});
+
+
+
+  
+  
+
+  
+
+
+
+Then("I need to click search again flight", () => {
 
   cy.get('body').then(($body) => {
-    if ($body.find('.common_popupFooter > .btn').length > 0) {
-      cy.log('Search Again flight is present, clicking it and continuing.');
-
-      cy.get('.common_popupFooter > .btn')
+    if ($body.find('.btn-payment > .empireFlight-PaymentPriceBtnWrapper').length > 0) {
+      cy.get('.btn-payment > .empireFlight-PaymentPriceBtnWrapper', { timeout: 10000 })
         .should('be.visible')
-        .click({ force: true });
-
-      flightDetails();
-      clickBookNow();
-     
-      travelerPagePaymentContinue();
-      paymentContinue();
+        .click();
     } else {
-      cy.log('Search Again flight is not present. Skipping this step.');
+      cy.log('Skipping click, element not found.');
     }
   });
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 });

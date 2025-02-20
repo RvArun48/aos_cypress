@@ -21,49 +21,61 @@ Scenario Outline: Search for flights with specific details for a one-way trip
     And I have enter the airline
     When I generate the search URL
     Then I should visit the generated URL   
-    Then I checking the origin and Destination as per search
-    # # Then I need to validate price calendar
-    Then I need to validate flight card
-    Then I need to validate fare option
-    Then I need to validate the time
-    Then I need to validate the price
-    Then I need to validate the stop
-    Then I need to validate Duration
-    Then I need to Validate Airlines
-    Then I need to validate Refundable Option
-    Then I need to validate sortby filter
+    # Then I checking the origin and Destination as per search
+    # # # Then I need to validate price calendar
+    # Then I need to validate flight card
+    # Then I need to validate fare option
+    # Then I need to validate the time
+    # Then I need to validate the price
+    # Then I need to validate the stop
+    # Then I need to validate Duration
+    # Then I need to Validate Airlines
+    # Then I need to validate Refundable Option
+    # Then I need to validate sortby filter
     Then I click on the flight details
-      Then  I need to validate flight details 
-    Then I click on the flight ltinerary
-     Then  I need to validate flight ltinerary
+    #   Then  I need to validate flight details 
+    # Then I click on the flight ltinerary
+    #  Then  I need to validate flight ltinerary
       
-    Then I click on the baggage
-     Then I need to validate baggage
-    Then I click on the fare breakup
-    Then I need to validate fare breakup
+    # Then I click on the baggage
+    #  Then I need to validate baggage
+    # Then I click on the fare breakup
+    # Then I need to validate fare breakup
     Then I click on the booknow
     Then I need to add the traveller details for "Adult"
     Then I need to add the traveller details for "Child"
     Then I need to add the traveller details for "Infant"
     Then I need to add the passenger common details
-    Then I have the promo code
-    Then I need to validate flight Summary
+    # Then I have the promo code
+    # Then I need to validate flight Summary
 
     Then I click on payment continue
-    Then I need to validate flight Summary payment page
+    # Then I need to validate flight Summary payment page
     Then I need to click continue to payment
-    # Then I need to click search again flight is not avaliable 
+     Then I need to click search again flight is not avaliable 
+    Then I need to click search again flight
+
     Then I need to enter card details
 
-    Then I need to validate booking Summary
+     Then I need to validate booking Summary
     Then I need to validate baggage confirmation page
     Then I need to validate confirmation page
     Then I need to validate traveller details
 
 
-     Examples:
-    | filePath                          | sheetName  | testCaseId |
-     | cypress/fixtures/b2c/flightDetails.xlsx | Oneway     | TC002      |   
+   Examples:
+    | filePath                                     | sheetName | testCaseId |
+| cypress/fixtures/b2c/flightDetails.xlsx     | Oneway    | TC001      |
+| cypress/fixtures/b2c/flightDetails.xlsx     | Oneway    | TC003      |
+| cypress/fixtures/b2c/flightDetails.xlsx     | Oneway    | TC004      |
+| cypress/fixtures/b2c/flightDetails.xlsx     | Oneway    | TC005      |
+| cypress/fixtures/b2c/flightDetails.xlsx     | Oneway    | TC006      |
+| cypress/fixtures/b2c/flightDetails.xlsx     | Oneway    | TC007      |
+| cypress/fixtures/b2c/flightDetails.xlsx     | Oneway    | TC008      |
+| cypress/fixtures/b2c/flightDetails.xlsx     | Oneway    | TC009      |
+| cypress/fixtures/b2c/flightDetails.xlsx     | Oneway    | TC010      |
+
+   
    
   
 
