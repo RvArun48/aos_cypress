@@ -1,4 +1,4 @@
-Feature: Footer Tests
+Feature: Footer Validation
   Validate key components and functionality of the Footer.
 
  

@@ -1,4 +1,4 @@
-Feature: AOS Validation
+Feature: Cms Validation
 
  @Package
   Scenario: I validate the package functionality for CMS

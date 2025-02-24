@@ -1,7 +1,7 @@
 import { Given } from "cypress-cucumber-preprocessor/steps";
 import "cypress-real-events/support";
 import 'cypress-soft-assertions';
-import 'cypress-wait-until';
+
 
 
 let bookingData,
@@ -730,7 +730,7 @@ const flightDetails = () => {
       cy.wrap($flightDetails[randomIndex]).click();
       cy.wait(1000);
     });
-
+    cy.wait(10000);
   cy.get('body').then(($body) => {
     if ($body.find(".common_popupCard").length > 0) {
       cy.get('.common_popupFooter > .btn')

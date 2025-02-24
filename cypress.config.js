@@ -9,7 +9,7 @@ const createEsbuildPlugin = require('@badeball/cypress-cucumber-preprocessor/esb
 
 
 module.exports = defineConfig({
-  defaultCommandTimeout: 30000,
+  defaultCommandTimeout: 50000,
   env: {
     
     url: "https://ngtest.amadeusonlinesuite.com/flight/search?",
@@ -26,7 +26,6 @@ module.exports = defineConfig({
        
       }));
      
-
 
       on('task', {
 

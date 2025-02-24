@@ -1,8 +1,8 @@
-Feature: Home Page Tests
+Feature: Search Form Validation
   Validate key components and functionality of the Home Page.
 
  
-@homepage
+@searchform
   Scenario: Validate key sections of the Home Page
   Given I want to open the application
     And the flight search section should be visible

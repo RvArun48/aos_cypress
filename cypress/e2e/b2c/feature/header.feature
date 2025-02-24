@@ -1,4 +1,4 @@
-Feature: Home Page Tests
+Feature: Header Validation
   Validate key components and functionality of the Header.
 
  
